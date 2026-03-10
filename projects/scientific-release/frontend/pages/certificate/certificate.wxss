@@ -1,0 +1,133 @@
+/* pages/certificate/certificate.wxss */
+
+.container {
+  padding: 24rpx;
+}
+
+.card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+/* Species Info */
+.species-info {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 24rpx;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 12rpx;
+  margin-bottom: 32rpx;
+}
+
+.species-icon {
+  font-size: 80rpx;
+}
+
+.species-detail {
+  flex: 1;
+}
+
+.species-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #2e7d32;
+  margin-bottom: 8rpx;
+}
+
+.species-scientific {
+  font-size: 24rpx;
+  color: #666;
+  font-style: italic;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 32rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  padding: 24rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 24rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  min-height: 200rpx;
+}
+
+/* Tips */
+.tips {
+  background: #fff8e1;
+  border-left: 4rpx solid #ff9800;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  margin-bottom: 32rpx;
+}
+
+.tips-text {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Submit Button */
+.submit-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #2e7d32 100%);
+  color: white;
+  border: none;
+  border-radius: 48rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 32rpx;
+}
+
+.submit-btn:active {
+  opacity: 0.9;
+}
+
+/* Blessing Preview */
+.blessing-preview {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+  padding: 32rpx;
+  border-radius: 12rpx;
+  margin-bottom: 32rpx;
+  border: 2rpx solid #ff9800;
+}
+
+.blessing-label {
+  font-size: 24rpx;
+  color: #5d4037;
+  margin-bottom: 16rpx;
+  text-align: center;
+}
+
+.blessing-content {
+  font-size: 28rpx;
+  color: #5d4037;
+  line-height: 1.8;
+  text-align: center;
+  font-style: italic;
+}
