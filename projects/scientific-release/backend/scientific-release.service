@@ -1,0 +1,18 @@
+[Unit]
+Description=Scientific Release Mini-Program Backend
+Documentation=https://github.com/bdodh22/openclaw-workspace
+After=network.target mysqld.service
+
+[Service]
+Type=simple
+User=admin
+WorkingDirectory=/home/admin/.openclaw/workspace/projects/scientific-release/backend
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/home/admin/.openclaw/workspace/projects/scientific-release/backend/server.log
+StandardError=append:/home/admin/.openclaw/workspace/projects/scientific-release/backend/error.log
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

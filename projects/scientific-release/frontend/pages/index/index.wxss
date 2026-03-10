@@ -1,35 +1,38 @@
 /* pages/index/index.wxss */
 
 .banner {
-  background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-  padding: 60rpx 32rpx;
-  text-align: center;
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  color: white;
+  padding: 48rpx 32rpx;
+}
+
+.banner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .banner-title {
-  display: block;
-  font-size: 48rpx;
+  font-size: 44rpx;
   font-weight: bold;
-  color: #FFFFFF;
   margin-bottom: 16rpx;
 }
 
 .banner-subtitle {
-  display: block;
-  font-size: 32rpx;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 28rpx;
+  opacity: 0.9;
 }
 
 .section-title {
   font-size: 34rpx;
-  font-weight: 600;
-  color: #333333;
+  font-weight: bold;
+  color: #333;
   margin-bottom: 24rpx;
   padding-left: 16rpx;
-  border-left: 8rpx solid #2E7D32;
+  border-left: 6rpx solid #4CAF50;
 }
 
-/* Quick Actions Grid */
+/* Quick Actions */
 .action-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -41,13 +44,13 @@
   flex-direction: column;
   align-items: center;
   padding: 24rpx 16rpx;
-  background: #F8F9FA;
+  background: #f9f9f9;
   border-radius: 16rpx;
-  transition: background-color 0.2s;
+  transition: background 0.2s;
 }
 
 .action-item:active {
-  background: #E8F5E9;
+  background: #e8f5e9;
 }
 
 .action-icon {
@@ -56,23 +59,23 @@
 }
 
 .action-text {
-  font-size: 26rpx;
-  color: #666666;
-  text-align: center;
+  font-size: 24rpx;
+  color: #666;
 }
 
 /* Daily Wisdom */
 .wisdom-content {
-  background: #FFF8E1;
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
   padding: 32rpx;
   border-radius: 12rpx;
-  border-left: 6rpx solid #FF9800;
+  border-left: 6rpx solid #ff9800;
 }
 
 .wisdom-text {
   font-size: 32rpx;
-  color: #5D4037;
   line-height: 1.8;
+  color: #5d4037;
+  font-style: italic;
 }
 
 /* Notice Board */
@@ -85,20 +88,21 @@
 .notice-item {
   display: flex;
   align-items: flex-start;
-  padding: 24rpx;
-  background: #FFF3E0;
+  gap: 16rpx;
+  padding: 20rpx;
+  background: #fff3e0;
   border-radius: 12rpx;
+  border-left: 4rpx solid #ff9800;
 }
 
 .notice-icon {
   font-size: 36rpx;
-  margin-right: 16rpx;
   flex-shrink: 0;
 }
 
 .notice-text {
   font-size: 28rpx;
-  color: #E65100;
+  color: #666;
   line-height: 1.6;
   flex: 1;
 }

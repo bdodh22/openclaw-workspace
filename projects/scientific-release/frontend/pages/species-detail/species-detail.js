@@ -1,21 +1,12 @@
 // pages/species-detail/species-detail.js
-const app = getApp();
+import { getSpeciesDetail } from '../../utils/api.js';
+import { showLoading, hideLoading, showError } from '../../utils/util.js';
 
 Page({
   data: {
     speciesId: null,
-    species: {
-      id: 1,
-      name: '鲫鱼',
-      scientificName: 'Carassius auratus',
-      category: 'fish',
-      isNative: true,
-      habitat: '淡水湖泊、河流、池塘',
-      releaseSeason: '春夏秋冬四季',
-      releaseLocation: '江河湖泊、水库',
-      precautions: '选择健康个体，避免放生到污染水域',
-      imageUrl: ''
-    }
+    species: null,
+    loading: true
   },
 
   onLoad(options) {
@@ -26,60 +17,20 @@ Page({
   },
 
   async loadSpeciesDetail(id) {
-    // Mock data for development
-    const mockData = {
-      1: {
-        id: 1,
-        name: '鲫鱼',
-        scientificName: 'Carassius auratus',
-        category: 'fish',
-        isNative: true,
-        habitat: '淡水湖泊、河流、池塘',
-        releaseSeason: '春夏秋冬四季',
-        releaseLocation: '江河湖泊、水库',
-        precautions: '选择健康个体，避免放生到污染水域。放生时轻柔放入水中，避免损伤鱼体。',
-        imageUrl: '/images/species/ji.png'
-      },
-      2: {
-        id: 2,
-        name: '鲤鱼',
-        scientificName: 'Cyprinus carpio',
-        category: 'fish',
-        isNative: true,
-        habitat: '淡水水域',
-        releaseSeason: '春季、秋季',
-        releaseLocation: '江河、湖泊、水库',
-        precautions: '避免放生到封闭小水域，需要足够活动空间。',
-        imageUrl: '/images/species/li.png'
-      },
-      3: {
-        id: 3,
-        name: '巴西龟',
-        scientificName: 'Trachemys scripta',
-        category: 'turtle',
-        isNative: false,
-        habitat: '淡水水域',
-        releaseSeason: '-',
-        releaseLocation: '-',
-        precautions: '外来入侵物种，严禁放生！',
-        imageUrl: '/images/species/turtle.png'
-      }
-    };
-
-    const species = mockData[id] || mockData[1];
-    this.setData({ species });
-
-    // Actual API call (uncomment in production)
-    /*
-    wx.request({
-      url: `${app.globalData.apiBaseUrl}/species/${id}`,
-      success: (res) => {
-        if (res.data.success) {
-          this.setData({ species: res.data.data });
-        }
-      }
-    });
-    */
+    showLoading('加载中...');
+    
+    try {
+      const res = await getSpeciesDetail(id);
+      this.setData({
+        species: res.data,
+        loading: false
+      });
+      hideLoading();
+    } catch (error) {
+      console.error('Load species detail error:', error);
+      hideLoading();
+      showError('加载失败');
+    }
   },
 
   getCategoryName(category) {
@@ -93,9 +44,35 @@ Page({
     return names[category] || '其他';
   },
 
+  getCategoryIcon(category) {
+    const icons = {
+      fish: '🐟',
+      bird: '🐦',
+      turtle: '🐢',
+      mammal: '🦎',
+      other: '🌿'
+    };
+    return icons[category] || '🌿';
+  },
+
   createCertificate() {
     wx.navigateTo({
       url: `/pages/certificate/certificate?speciesId=${this.data.speciesId}`
     });
+  },
+
+  shareSpecies() {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    });
+  },
+
+  onShareAppMessage() {
+    const species = this.data.species;
+    return {
+      title: `${species.name} - 科学放生`,
+      path: `/pages/species-detail/species-detail?id=${species.id}`
+    };
   }
 });

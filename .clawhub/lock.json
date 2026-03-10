@@ -4,6 +4,10 @@
     "searxng": {
       "version": "1.0.3",
       "installedAt": 1770711623158
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1773107649214
     }
   }
 }

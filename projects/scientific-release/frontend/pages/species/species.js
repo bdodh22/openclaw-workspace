@@ -1,6 +1,7 @@
 // pages/species/species.js
 const app = getApp();
-const apiBaseUrl = app.globalData.apiBaseUrl;
+import { getSpeciesList, searchSpecies } from '../../utils/api.js';
+import { showLoading, hideLoading, showError } from '../../utils/util.js';
 
 Page({
   data: {
@@ -10,7 +11,15 @@ Page({
     page: 1,
     limit: 20,
     loading: false,
-    hasMore: true
+    hasMore: true,
+    categories: [
+      { key: '', name: '全部', icon: '🌊' },
+      { key: 'fish', name: '鱼类', icon: '🐟' },
+      { key: 'bird', name: '鸟类', icon: '🐦' },
+      { key: 'turtle', name: '龟类', icon: '🐢' },
+      { key: 'mammal', name: '哺乳类', icon: '🦎' },
+      { key: 'other', name: '其他', icon: '🌿' }
+    ]
   },
 
   onLoad() {
@@ -29,95 +38,29 @@ Page({
 
   async loadSpecies() {
     this.setData({ loading: true });
+    showLoading('加载中...');
 
     try {
-      const { page, limit, currentCategory, keyword } = this.data;
+      const { page, limit, currentCategory } = this.data;
       
-      // Mock data for development (replace with actual API call)
-      const mockData = [
-        {
-          id: 1,
-          name: '鲫鱼',
-          scientificName: 'Carassius auratus',
-          category: 'fish',
-          isNative: true,
-          habitat: '淡水湖泊、河流、池塘',
-          releaseSeason: '春夏秋冬四季',
-          releaseLocation: '江河湖泊、水库',
-          precautions: '选择健康个体，避免放生到污染水域'
-        },
-        {
-          id: 2,
-          name: '鲤鱼',
-          scientificName: 'Cyprinus carpio',
-          category: 'fish',
-          isNative: true,
-          habitat: '淡水水域',
-          releaseSeason: '春季、秋季',
-          releaseLocation: '江河、湖泊、水库',
-          precautions: '避免放生到封闭小水域'
-        },
-        {
-          id: 3,
-          name: '乌龟',
-          scientificName: 'Chinemys reevesii',
-          category: 'turtle',
-          isNative: true,
-          habitat: '淡水水域',
-          releaseSeason: '春季、夏季',
-          releaseLocation: '江河、湖泊、池塘',
-          precautions: '本地中华龟，非巴西龟'
-        },
-        {
-          id: 4,
-          name: '麻雀',
-          scientificName: 'Passer montanus',
-          category: 'bird',
-          isNative: true,
-          habitat: '城乡常见',
-          releaseSeason: '春季、秋季',
-          releaseLocation: '树林、公园',
-          precautions: '选择健康个体，远离人类聚居区'
-        }
-      ];
-
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-
+      const res = await getSpeciesList(page, limit);
+      
+      const newList = this.data.page === 1 
+        ? res.data 
+        : [...this.data.speciesList, ...res.data];
+      
       this.setData({
-        speciesList: this.data.page === 1 ? mockData : [...this.data.speciesList, ...mockData],
+        speciesList: newList,
         loading: false,
-        hasMore: false // For mock data
+        hasMore: res.pagination.page < res.pagination.totalPages
       });
-
-      // Actual API call (uncomment in production)
-      /*
-      const url = `${apiBaseUrl}/species?page=${page}&limit=${limit}${currentCategory ? '&category=' + currentCategory : ''}${keyword ? '&keyword=' + keyword : ''}`;
       
-      wx.request({
-        url,
-        success: (res) => {
-          if (res.data.success) {
-            const newList = this.data.page === 1 
-              ? res.data.data 
-              : [...this.data.speciesList, ...res.data.data];
-            
-            this.setData({
-              speciesList: newList,
-              loading: false,
-              hasMore: res.data.pagination.page < res.data.pagination.totalPages
-            });
-          }
-        },
-        fail: () => {
-          this.setData({ loading: false });
-          wx.showToast({ title: '加载失败', icon: 'none' });
-        }
-      });
-      */
+      hideLoading();
     } catch (error) {
       console.error('Load species error:', error);
       this.setData({ loading: false });
+      hideLoading();
+      showError('加载失败，请重试');
     }
   },
 
@@ -137,14 +80,35 @@ Page({
     this.setData({ keyword: e.detail.value });
   },
 
-  doSearch() {
-    this.refresh();
+  async doSearch() {
+    if (!this.data.keyword.trim()) {
+      this.refresh();
+      return;
+    }
+
+    showLoading('搜索中...');
+    
+    try {
+      const res = await searchSpecies(this.data.keyword);
+      this.setData({
+        speciesList: res.data,
+        hasMore: false
+      });
+      hideLoading();
+    } catch (error) {
+      hideLoading();
+      showError('搜索失败');
+    }
   },
 
   selectCategory(e) {
     const category = e.currentTarget.dataset.category;
-    this.setData({ currentCategory: category });
-    this.refresh();
+    this.setData({ 
+      currentCategory: category,
+      page: 1,
+      speciesList: []
+    });
+    this.loadSpecies();
   },
 
   goToDetail(e) {
@@ -163,5 +127,16 @@ Page({
       other: '其他'
     };
     return names[category] || '其他';
+  },
+
+  getCategoryIcon(category) {
+    const icons = {
+      fish: '🐟',
+      bird: '🐦',
+      turtle: '🐢',
+      mammal: '🦎',
+      other: '🌿'
+    };
+    return icons[category] || '🌿';
   }
 });
