@@ -1,0 +1,79 @@
+<!--pages/species-detail/species-detail.wxml-->
+<view class="container">
+  <!-- Species Image Header -->
+  <view class="species-header" style="background-image: url({{species.imageUrl}});">
+    <view class="header-overlay"></view>
+    <view class="header-content">
+      <text class="species-name">{{species.name}}</text>
+      <text class="species-scientific">{{species.scientificName}}</text>
+    </view>
+  </view>
+
+  <!-- Status Banner -->
+  <view class="status-banner card {{species.isNative ? 'success' : 'warning'}}">
+    <text class="status-icon">{{species.isNative ? '✅' : '⚠️'}}</text>
+    <text class="status-text">{{species.isNative ? '本地物种 - 可以放生' : '非本地物种 - 禁止放生'}}</text>
+  </view>
+
+  <!-- Species Info -->
+  <view class="info-section card">
+    <view class="section-title">基本信息</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">类别</text>
+        <text class="info-value">{{getCategoryName(species.category)}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">栖息环境</text>
+        <text class="info-value">{{species.habitat}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">适宜季节</text>
+        <text class="info-value">{{species.releaseSeason}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">适宜地点</text>
+        <text class="info-value">{{species.releaseLocation}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Precautions -->
+  <view class="precautions card" wx:if="{{species.isNative}}">
+    <view class="section-title">⚠️ 放生注意事项</view>
+    <text class="precautions-text">{{species.precautions}}</text>
+    <view class="tips-list">
+      <view class="tip-item">
+        <text class="tip-icon">✓</text>
+        <text class="tip-text">选择健康、活跃的个体</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-icon">✓</text>
+        <text class="tip-text">避免在极端天气放生</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-icon">✓</text>
+        <text class="tip-text">轻柔放入水中，避免抛掷</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-icon">✓</text>
+        <text class="tip-text">放生后尽快离开，减少干扰</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Warning for Non-Native -->
+  <view class="warning-card card" wx:if="{{!species.isNative}}">
+    <view class="warning-icon">🚫</view>
+    <text class="warning-title">禁止放生</text>
+    <text class="warning-text">该物种不是本地物种，放生可能破坏生态平衡，且违反《野生动物保护法》，可能面临罚款。</text>
+    <text class="warning-subtext">请选择本地物种进行放生，科学放生才能真正积福。</text>
+  </view>
+
+  <!-- Action Buttons -->
+  <view class="action-bar" wx:if="{{species.isNative}}">
+    <button class="action-btn primary" bindtap="createCertificate">
+      为此物种祈福
+    </button>
+  </view>
+</view>

@@ -1,0 +1,56 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- Header Banner -->
+  <view class="banner card">
+    <view class="banner-content">
+      <text class="banner-title">科学放生 如法祈福</text>
+      <text class="banner-subtitle">保护生态 积累福报</text>
+    </view>
+  </view>
+
+  <!-- Quick Actions -->
+  <view class="quick-actions card">
+    <view class="section-title">常用功能</view>
+    <view class="action-grid">
+      <view class="action-item" bindtap="goToSpecies">
+        <view class="action-icon">🐟</view>
+        <text class="action-text">物种查询</text>
+      </view>
+      <view class="action-item" bindtap="goToCertificate">
+        <view class="action-icon">📿</view>
+        <text class="action-text">生成祈福</text>
+      </view>
+      <view class="action-item" bindtap="goToCalendar">
+        <view class="action-icon">📅</view>
+        <text class="action-text">斋日查询</text>
+      </view>
+      <view class="action-item" bindtap="goToKnowledge">
+        <view class="action-icon">📖</view>
+        <text class="action-text">放生知识</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Daily Wisdom -->
+  <view class="wisdom card">
+    <view class="section-title">每日善语</view>
+    <view class="wisdom-content">
+      <text class="wisdom-text">{{dailyWisdom}}</text>
+    </view>
+  </view>
+
+  <!-- Notice Board -->
+  <view class="notice card">
+    <view class="section-title">重要提醒</view>
+    <view class="notice-list">
+      <view class="notice-item">
+        <text class="notice-icon">⚠️</text>
+        <text class="notice-text">请勿放生外来物种，违法可能面临罚款</text>
+      </view>
+      <view class="notice-item">
+        <text class="notice-icon">✅</text>
+        <text class="notice-text">选择本地物种，科学放生才能真正积福</text>
+      </view>
+    </view>
+  </view>
+</view>

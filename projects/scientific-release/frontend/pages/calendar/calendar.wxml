@@ -1,0 +1,83 @@
+<!--pages/calendar/calendar.wxml-->
+<view class="container">
+  <!-- Header -->
+  <view class="header card">
+    <text class="header-title">斋日查询</text>
+    <text class="header-subtitle">初一十五 十斋六斋</text>
+  </view>
+
+  <!-- Today Status -->
+  <view class="today-status card">
+    <view class="status-icon">{{isVegetarianDay ? '📿' : '☀️'}}</view>
+    <view class="status-info">
+      <text class="status-date">{{today}}</text>
+      <text class="status-desc">{{isVegetarianDay ? '今日是斋日' : '今日是普通日'}}</text>
+      <text class="status-detail">{{vegetarianDayDesc}}</text>
+    </view>
+  </view>
+
+  <!-- Month Selector -->
+  <view class="month-selector card">
+    <view class="month-nav" bindtap="prevMonth">
+      <text>◀</text>
+    </view>
+    <text class="month-title">{{currentYear}}年{{currentMonth}}月</text>
+    <view class="month-nav" bindtap="nextMonth">
+      <text>▶</text>
+    </view>
+  </view>
+
+  <!-- Calendar Grid -->
+  <view class="calendar card">
+    <view class="calendar-header">
+      <text class="weekday">日</text>
+      <text class="weekday">一</text>
+      <text class="weekday">二</text>
+      <text class="weekday">三</text>
+      <text class="weekday">四</text>
+      <text class="weekday">五</text>
+      <text class="weekday">六</text>
+    </view>
+    <view class="calendar-days">
+      <view 
+        class="day-cell {{day.isToday ? 'today' : ''}} {{day.isVegetarian ? 'vegetarian' : ''}}"
+        wx:for="{{calendarDays}}"
+        wx:key="day"
+        bindtap="selectDay"
+        data-day="{{item}}"
+      >
+        <text class="day-number">{{item.day}}</text>
+        <text class="day-mark" wx:if="{{item.isVegetarian}}">斋</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Vegetarian Days Legend -->
+  <view class="legend card">
+    <view class="legend-title">斋日说明</view>
+    <view class="legend-list">
+      <view class="legend-item">
+        <text class="legend-dot ten-day"></text>
+        <text class="legend-text">十斋日：每月初一、初八、十四、十五、十八、廿三、廿四、廿八、廿九、三十</text>
+      </view>
+      <view class="legend-item">
+        <text class="legend-dot six-day"></text>
+        <text class="legend-text">六斋日：每月初八、十四、十五、廿三、廿九、三十</text>
+      </view>
+      <view class="legend-item">
+        <text class="legend-dot first-day"></text>
+        <text class="legend-text">朔日（初一）：新月之日，宜放生祈福</text>
+      </view>
+      <view class="legend-item">
+        <text class="legend-dot fifteenth-day"></text>
+        <text class="legend-text">望日（十五）：满月之日，宜放生祈福</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Tip -->
+  <view class="tip card">
+    <text class="tip-icon">💡</text>
+    <text class="tip-text">斋日放生，功德倍增。选择本地物种，科学如法放生。</text>
+  </view>
+</view>

@@ -1,0 +1,68 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- User Info Card -->
+  <view class="user-card card">
+    <view class="user-info">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="nickname">{{userInfo.nickname || '点击登录'}}</text>
+        <text class="user-id">ID: {{userInfo.id || '-'}}</text>
+      </view>
+    </view>
+    <button class="login-btn" wx:if="{{!isLoggedIn}}" bindtap="login">
+      微信登录
+    </button>
+  </view>
+
+  <!-- Stats Card -->
+  <view class="stats-card card">
+    <view class="stat-item">
+      <text class="stat-value">{{userInfo.totalReleases || 0}}</text>
+      <text class="stat-label">放生次数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{userInfo.totalMerit || 0}}</text>
+      <text class="stat-label">福报积分</text>
+    </view>
+  </view>
+
+  <!-- Menu List -->
+  <view class="menu-section card">
+    <view class="menu-item" bindtap="goToCertificates">
+      <text class="menu-icon">📿</text>
+      <text class="menu-text">我的祈福</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToFavorites">
+      <text class="menu-icon">⭐</text>
+      <text class="menu-text">收藏物种</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToSettings">
+      <text class="menu-icon">⚙️</text>
+      <text class="menu-text">设置</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- About Section -->
+  <view class="about-section card">
+    <view class="menu-item" bindtap="showAbout">
+      <text class="menu-icon">ℹ️</text>
+      <text class="menu-text">关于我们</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="showFeedback">
+      <text class="menu-icon">💬</text>
+      <text class="menu-text">意见反馈</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Version Info -->
+  <view class="version-info">
+    <text class="version-text">科学放生小程序 v1.0.0</text>
+    <text class="version-text">科学放生 · 如法祈福 · 保护生态</text>
+  </view>
+</view>

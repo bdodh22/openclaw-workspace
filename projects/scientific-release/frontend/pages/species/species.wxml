@@ -1,0 +1,87 @@
+<!--pages/species/species.wxml-->
+<view class="container">
+  <!-- Search Bar -->
+  <view class="search-bar card">
+    <view class="search-input-wrap">
+      <input 
+        class="search-input" 
+        placeholder="搜索物种名称" 
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+        bindconfirm="doSearch"
+      />
+      <button class="search-btn" bindtap="doSearch">搜索</button>
+    </view>
+    
+    <!-- Category Filter -->
+    <view class="category-filter">
+      <view 
+        class="category-item {{currentCategory === '' ? 'active' : ''}}"
+        bindtap="selectCategory"
+        data-category=""
+      >全部</view>
+      <view 
+        class="category-item {{currentCategory === 'fish' ? 'active' : ''}}"
+        bindtap="selectCategory"
+        data-category="fish"
+      >鱼类</view>
+      <view 
+        class="category-item {{currentCategory === 'bird' ? 'active' : ''}}"
+        bindtap="selectCategory"
+        data-category="bird"
+      >鸟类</view>
+      <view 
+        class="category-item {{currentCategory === 'turtle' ? 'active' : ''}}"
+        bindtap="selectCategory"
+        data-category="turtle"
+      >龟类</view>
+      <view 
+        class="category-item {{currentCategory === 'other' ? 'active' : ''}}"
+        bindtap="selectCategory"
+        data-category="other"
+      >其他</view>
+    </view>
+  </view>
+
+  <!-- Species List -->
+  <view class="species-list">
+    <view 
+      class="species-card card" 
+      wx:for="{{speciesList}}" 
+      wx:key="id"
+      bindtap="goToDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="species-card-header">
+        <text class="species-name">{{item.name}}</text>
+        <text class="species-scientific">{{item.scientificName}}</text>
+      </view>
+      
+      <view class="species-card-body">
+        <view class="species-tags">
+          <view class="tag tag-native" wx:if="{{item.isNative}}">✓ 本地物种</view>
+          <view class="tag tag-warning" wx:else>⚠ 禁止放生</view>
+          <view class="tag tag-category">{{getCategoryName(item.category)}}</view>
+        </view>
+        <text class="species-habitat">📍 {{item.habitat}}</text>
+      </view>
+    </view>
+
+    <!-- Empty State -->
+    <view class="empty-state" wx:if="{{speciesList.length === 0}}">
+      <text class="empty-icon">🔍</text>
+      <text class="empty-text">暂无物种数据</text>
+    </view>
+  </view>
+
+  <!-- Loading -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- Load More -->
+  <view class="load-more" wx:if="{{hasMore && !loading}}">
+    <text>加载更多</text>
+  </view>
+</view>

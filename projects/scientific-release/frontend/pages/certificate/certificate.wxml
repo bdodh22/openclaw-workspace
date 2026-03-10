@@ -1,0 +1,102 @@
+<!--pages/certificate/certificate.wxml-->
+<view class="container">
+  <!-- Header -->
+  <view class="header card">
+    <text class="header-title">祈福证书</text>
+    <text class="header-subtitle">记录善行 积累福报</text>
+  </view>
+
+  <!-- Create Certificate Form -->
+  <view class="form-section card">
+    <view class="section-title">新建祈福</view>
+    
+    <!-- Species Selection -->
+    <view class="form-item">
+      <text class="form-label">放生物种</text>
+      <picker 
+        mode="selector" 
+        range="{{speciesOptions}}" 
+        range-key="name"
+        value="{{speciesIndex}}"
+        bindchange="onSpeciesChange"
+      >
+        <view class="picker">
+          {{speciesIndex >= 0 ? speciesOptions[speciesIndex].name : '请选择物种'}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- Blessing Text -->
+    <view class="form-item">
+      <text class="form-label">祈福心愿</text>
+      <textarea 
+        class="textarea" 
+        placeholder="输入祈福内容，如：为父母健康祈福"
+        value="{{blessingText}}"
+        bindinput="onBlessingInput"
+        maxlength="200"
+      />
+      <text class="char-count">{{blessingText.length}}/200</text>
+    </view>
+
+    <!-- Release Date -->
+    <view class="form-item">
+      <text class="form-label">放生日期</text>
+      <picker 
+        mode="date" 
+        value="{{releaseDate}}"
+        bindchange="onDateChange"
+      >
+        <view class="picker">
+          {{releaseDate || '选择日期'}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- Release Location -->
+    <view class="form-item">
+      <text class="form-label">放生地点</text>
+      <input 
+        class="input" 
+        placeholder="输入放生地点"
+        value="{{releaseLocation}}"
+        bindinput="onLocationInput"
+      />
+    </view>
+
+    <!-- Submit Button -->
+    <button class="submit-btn" bindtap="generateCertificate">
+      生成祈福证书
+    </button>
+  </view>
+
+  <!-- Certificate List -->
+  <view class="certificate-section">
+    <view class="section-title">我的祈福</view>
+    
+    <view 
+      class="certificate-card card" 
+      wx:for="{{certificateList}}" 
+      wx:key="id"
+      bindtap="viewCertificate"
+      data-id="{{item.id}}"
+    >
+      <view class="cert-header">
+        <text class="cert-no">编号：{{item.certificateNo}}</text>
+        <text class="cert-date">{{item.releaseDate}}</text>
+      </view>
+      <view class="cert-body">
+        <text class="cert-species">物种：{{item.species.name}}</text>
+        <text class="cert-blessing">心愿：{{item.blessingText}}</text>
+      </view>
+      <view class="cert-footer">
+        <text class="cert-merit">+{{item.meritPoints}} 福报</text>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{certificateList.length === 0}}">
+      <text class="empty-icon">📿</text>
+      <text class="empty-text">暂无祈福记录</text>
+    </view>
+  </view>
+</view>

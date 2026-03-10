@@ -1,0 +1,217 @@
+/* pages/calendar/calendar.wxss */
+
+.header {
+  text-align: center;
+  padding: 40rpx 32rpx;
+}
+
+.header-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: #999999;
+}
+
+/* Today Status */
+.today-status {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+}
+
+.status-icon {
+  font-size: 80rpx;
+  margin-right: 24rpx;
+}
+
+.status-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.status-date {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.status-desc {
+  font-size: 28rpx;
+  color: #2E7D32;
+  font-weight: 500;
+}
+
+.status-detail {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* Month Selector */
+.month-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+}
+
+.month-nav {
+  padding: 16rpx 24rpx;
+  background: #F5F5F5;
+  border-radius: 32rpx;
+  font-size: 32rpx;
+  color: #2E7D32;
+}
+
+.month-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Calendar */
+.calendar {
+  padding: 24rpx;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8rpx;
+  margin-bottom: 16rpx;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999999;
+  padding: 12rpx 0;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8rpx;
+}
+
+.day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #F8F9FA;
+  border-radius: 12rpx;
+  position: relative;
+}
+
+.day-cell.today {
+  background: #E8F5E9;
+  border: 2rpx solid #2E7D32;
+}
+
+.day-cell.vegetarian {
+  background: #FFF8E1;
+}
+
+.day-cell.vegetarian.today {
+  background: #FFECB3;
+  border: 2rpx solid #FF9800;
+}
+
+.day-number {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+}
+
+.day-cell.today .day-number {
+  color: #2E7D32;
+  font-weight: bold;
+}
+
+.day-mark {
+  position: absolute;
+  bottom: 8rpx;
+  font-size: 20rpx;
+  color: #FF9800;
+}
+
+/* Legend */
+.legend-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+}
+
+.legend-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6rpx;
+}
+
+.legend-dot.ten-day {
+  background: #FF9800;
+}
+
+.legend-dot.six-day {
+  background: #FF5722;
+}
+
+.legend-dot.first-day {
+  background: #2E7D32;
+}
+
+.legend-dot.fifteenth-day {
+  background: #4CAF50;
+}
+
+.legend-text {
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* Tip */
+.tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  background: #E3F2FD;
+  border-left: 6rpx solid #2196F3;
+}
+
+.tip-icon {
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+
+.tip-text {
+  font-size: 26rpx;
+  color: #1565C0;
+  line-height: 1.6;
+  flex: 1;
+}
