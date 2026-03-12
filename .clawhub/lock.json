@@ -24,6 +24,14 @@
     "memory-manager": {
       "version": "1.0.0",
       "installedAt": 1773300213555
+    },
+    "superdesign": {
+      "version": "1.0.0",
+      "installedAt": 1773310692776
+    },
+    "ui-ux-design": {
+      "version": "1.0.0",
+      "installedAt": 1773310696793
     }
   }
 }
