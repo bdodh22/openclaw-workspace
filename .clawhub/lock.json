@@ -8,6 +8,10 @@
     "github": {
       "version": "1.0.0",
       "installedAt": 1773107649214
+    },
+    "sonoscli": {
+      "version": "1.0.0",
+      "installedAt": 1773297251566
     }
   }
 }
