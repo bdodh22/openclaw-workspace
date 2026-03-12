@@ -1,0 +1,78 @@
+<!--pages/ranking/ranking.wxml-->
+<view class="container">
+  <!-- 我的排名卡片 -->
+  <view class="my-rank-card card card-gold" wx:if="{{myRank}}">
+    <view class="my-rank-header">
+      <text class="my-rank-title">我的排名</text>
+      <text class="my-rank-level" style="color: {{myRank.level.color}}">{{myRank.level.icon}} {{myRank.level.name}}</text>
+    </view>
+    <view class="my-rank-body">
+      <view class="rank-number">{{myRank.rank || '-'}}</view>
+      <view class="rank-info">
+        <text class="rank-merit">累计功德：{{myRank.totalMerit}}</text>
+        <text class="rank-total">共 {{myRank.totalUsers}} 人参与</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 榜单切换 -->
+  <view class="tabs">
+    <view 
+      class="tab-item {{currentTab === item.key ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-tab="{{item.key}}"
+      bindtap="switchTab"
+    >
+      {{item.name}}
+    </view>
+  </view>
+
+  <!-- 排行榜列表 -->
+  <view class="ranking-list">
+    <view 
+      class="rank-item card"
+      wx:for="{{rankings}}"
+      wx:key="userId"
+    >
+      <view class="rank-index">
+        <text class="rank-icon">{{getRankIcon(item.rank)}}</text>
+      </view>
+      
+      <view class="rank-user">
+        <image class="user-avatar" src="{{item.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+        <view class="user-info">
+          <text class="user-name">{{item.nickname}}</text>
+          <text class="user-level" style="color: {{item.level.color}}">{{item.level.icon}} {{item.level.name}}</text>
+        </view>
+      </view>
+      
+      <view class="rank-score">
+        <text class="score-number">{{item.totalMerit}}</text>
+        <text class="score-label">功德</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{rankings.length === 0 && !loading}}">
+    <text class="empty-icon">📊</text>
+    <text class="empty-text">暂无排名数据</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <view class="loading-dots">
+      <dot></dot>
+      <dot></dot>
+      <dot></dot>
+    </view>
+  </view>
+
+  <!-- 分享按钮 -->
+  <view class="share-bar">
+    <button class="share-btn" bindtap="shareRanking">
+      分享榜单
+    </button>
+  </view>
+</view>

@@ -11,6 +11,7 @@ const speciesRoutes = require('./src/routes/species');
 const certificateRoutes = require('./src/routes/certificate');
 const userRoutes = require('./src/routes/user');
 const calendarRoutes = require('./src/routes/calendar');
+const rankingRoutes = require('./src/routes/ranking');
 
 // Import database
 const { sequelize } = require('./src/models');
@@ -39,6 +40,7 @@ app.use('/api/species', speciesRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/calendar', calendarRoutes);
+app.use('/api/ranking', rankingRoutes);
 
 // 404 handler
 app.use((req, res) => {

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "功德排行榜",
+  "navigationBarBackgroundColor": "#4A5D4E",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

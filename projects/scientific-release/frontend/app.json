@@ -5,7 +5,8 @@
     "pages/species-detail/species-detail",
     "pages/certificate/certificate",
     "pages/calendar/calendar",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/ranking/ranking"
   ],
   "window": {
     "backgroundTextStyle": "light",

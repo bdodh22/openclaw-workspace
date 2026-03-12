@@ -1,0 +1,214 @@
+/* pages/ranking/ranking.wxss */
+
+/* 我的排名卡片 */
+.my-rank-card {
+  background: linear-gradient(135deg, #FDFBF7 0%, #F9F8F4 100%);
+  border: 2rpx solid #C9A961;
+  padding: 40rpx 32rpx;
+}
+
+.my-rank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.my-rank-title {
+  font-size: 32rpx;
+  color: var(--text-primary);
+  font-weight: 400;
+  letter-spacing: 2rpx;
+}
+
+.my-rank-level {
+  font-size: 26rpx;
+  padding: 8rpx 20rpx;
+  background: rgba(201, 169, 97, 0.1);
+  border-radius: 24rpx;
+}
+
+.my-rank-body {
+  display: flex;
+  align-items: center;
+  gap: 40rpx;
+}
+
+.rank-number {
+  font-size: 96rpx;
+  font-weight: 300;
+  color: var(--accent-gold);
+  line-height: 1;
+}
+
+.rank-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.rank-merit {
+  font-size: 32rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.rank-total {
+  font-size: 24rpx;
+  color: var(--text-hint);
+}
+
+/* 榜单切换 */
+.tabs {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+  padding: 16rpx;
+  background: var(--bg-card);
+  border-radius: 48rpx;
+  box-shadow: var(--shadow-soft);
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  border-radius: 36rpx;
+  transition: all 0.3s;
+}
+
+.tab-item.active {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+/* 排行榜列表 */
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.rank-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 32rpx;
+  transition: all 0.3s;
+}
+
+.rank-item:active {
+  transform: scale(0.98);
+}
+
+.rank-index {
+  width: 80rpx;
+  text-align: center;
+}
+
+.rank-icon {
+  font-size: 36rpx;
+}
+
+.rank-user {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.user-avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.user-name {
+  font-size: 30rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.user-level {
+  font-size: 24rpx;
+  padding: 4rpx 16rpx;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 16rpx;
+  align-self: flex-start;
+}
+
+.rank-score {
+  text-align: right;
+}
+
+.score-number {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.score-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-hint);
+  margin-top: 8rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120rpx 0;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: var(--text-hint);
+}
+
+/* 加载状态 */
+.loading-state {
+  padding: 80rpx 0;
+}
+
+/* 分享按钮 */
+.share-bar {
+  position: fixed;
+  bottom: 48rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.share-btn {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #B8945E 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 48rpx;
+  padding: 24rpx 64rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  box-shadow: 0 8rpx 32rpx rgba(201, 169, 97, 0.4);
+}
+
+.share-btn:active {
+  transform: scale(0.95);
+}
