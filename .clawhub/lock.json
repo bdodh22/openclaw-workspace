@@ -12,6 +12,18 @@
     "sonoscli": {
       "version": "1.0.0",
       "installedAt": 1773297251566
+    },
+    "skill-finder-cn": {
+      "version": "1.0.0",
+      "installedAt": 1773299169332
+    },
+    "memory-hygiene": {
+      "version": "1.0.0",
+      "installedAt": 1773299958341
+    },
+    "memory-manager": {
+      "version": "1.0.0",
+      "installedAt": 1773300213555
     }
   }
 }
