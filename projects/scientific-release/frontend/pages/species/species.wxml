@@ -1,11 +1,11 @@
-<!--pages/species/species.wxml-->
+<!--pages/species/species.wxml - Modern Zen Design: 生命图鉴式卡片-->
 <view class="container">
-  <!-- Search Bar -->
-  <view class="search-bar card">
+  <!-- 搜索栏 - 悬浮胶囊 -->
+  <view class="search-bar">
     <view class="search-input-wrap">
       <input 
         class="search-input" 
-        placeholder="搜索物种名称" 
+        placeholder="搜索物种名称..." 
         value="{{keyword}}"
         bindinput="onSearchInput"
         confirm-type="search"
@@ -14,7 +14,7 @@
       <button class="search-btn" bindtap="doSearch">搜索</button>
     </view>
     
-    <!-- Category Filter -->
+    <!-- 分类筛选 - 胶囊标签 -->
     <view class="category-filter">
       <view 
         class="category-item {{currentCategory === '' ? 'active' : ''}}"
@@ -37,6 +37,11 @@
         data-category="turtle"
       >龟类</view>
       <view 
+        class="category-item {{currentCategory === 'mammal' ? 'active' : ''}}"
+        bindtap="selectCategory"
+        data-category="mammal"
+      >哺乳类</view>
+      <view 
         class="category-item {{currentCategory === 'other' ? 'active' : ''}}"
         bindtap="selectCategory"
         data-category="other"
@@ -44,44 +49,65 @@
     </view>
   </view>
 
-  <!-- Species List -->
+  <!-- 物种列表 - 生命图鉴式卡片 -->
   <view class="species-list">
     <view 
-      class="species-card card" 
+      class="species-card {{item.isNative ? 'native' : 'forbidden'}} animate-slide-in animate-delay-{{index % 5}}"
       wx:for="{{speciesList}}" 
       wx:key="id"
       bindtap="goToDetail"
       data-id="{{item.id}}"
     >
+      <!-- 物种插图区域 - 圆形去底效果 -->
+      <view class="species-illustration">
+        <text class="species-icon">{{item.icon || '🐟'}}</text>
+      </view>
+      
       <view class="species-card-header">
-        <text class="species-name">{{item.name}}</text>
-        <text class="species-scientific">{{item.scientificName}}</text>
+        <view>
+          <text class="species-name">{{item.name}}</text>
+          <text class="species-scientific" wx:if="{{item.scientificName}}">{{item.scientificName}}</text>
+        </view>
       </view>
       
       <view class="species-card-body">
+        <!-- 标签系统 -->
         <view class="species-tags">
           <view class="tag tag-native" wx:if="{{item.isNative}}">✓ 本地物种</view>
           <view class="tag tag-warning" wx:else>⚠ 禁止放生</view>
-          <view class="tag tag-category">{{getCategoryName(item.category)}}</view>
+          <view class="tag tag-category" wx:if="{{item.category}}">{{getCategoryName(item.category)}}</view>
         </view>
-        <text class="species-habitat">📍 {{item.habitat}}</text>
+        
+        <!-- 栖息地信息 -->
+        <view class="species-habitat" wx:if="{{item.habitat}}">
+          <text>📍 {{item.habitat}}</text>
+        </view>
+        
+        <!-- 放生意义 - 禅意卡片 -->
+        <view class="species-meaning" wx:if="{{item.meaning}}">
+          <text class="meaning-title">放生意义</text>
+          <text class="meaning-text">{{item.meaning}}</text>
+        </view>
       </view>
     </view>
 
-    <!-- Empty State -->
-    <view class="empty-state" wx:if="{{speciesList.length === 0}}">
+    <!-- 空状态 - 禅意留白 -->
+    <view class="empty-state" wx:if="{{speciesList.length === 0 && !loading}}">
       <text class="empty-icon">🔍</text>
       <text class="empty-text">暂无物种数据</text>
+      <text class="empty-subtext">尝试其他搜索关键词</text>
     </view>
-  </view>
 
-  <!-- Loading -->
-  <view class="loading" wx:if="{{loading}}">
-    <text>加载中...</text>
-  </view>
+    <!-- 加载状态 - 呼吸效果 -->
+    <view class="loading" wx:if="{{loading}}">
+      <dot></dot>
+      <dot></dot>
+      <dot></dot>
+    </view>
 
-  <!-- Load More -->
-  <view class="load-more" wx:if="{{hasMore && !loading}}">
-    <text>加载更多</text>
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore && !loading}}" bindtap="loadMore">
+      <text>加载更多</text>
+    </view>
   </view>
 </view>
