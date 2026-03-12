@@ -20,13 +20,13 @@
         <view class="action-icon">📿</view>
         <text class="action-text">生成祈福</text>
       </view>
+      <view class="action-item" bindtap="goToRanking">
+        <view class="action-icon">🏆</view>
+        <text class="action-text">功德榜</text>
+      </view>
       <view class="action-item" bindtap="goToCalendar">
         <view class="action-icon">📅</view>
         <text class="action-text">斋日查询</text>
-      </view>
-      <view class="action-item" bindtap="goToKnowledge">
-        <view class="action-icon">📖</view>
-        <text class="action-text">放生知识</text>
       </view>
     </view>
   </view>

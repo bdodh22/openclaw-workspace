@@ -65,5 +65,11 @@ Page({
     wx.navigateTo({
       url: '/pages/knowledge/knowledge'
     });
+  },
+
+  goToRanking() {
+    wx.navigateTo({
+      url: '/pages/ranking/ranking'
+    });
   }
 });
