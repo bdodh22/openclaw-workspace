@@ -12,6 +12,8 @@ const certificateRoutes = require('./src/routes/certificate');
 const userRoutes = require('./src/routes/user');
 const calendarRoutes = require('./src/routes/calendar');
 const rankingRoutes = require('./src/routes/ranking');
+const posterRoutes = require('./src/routes/poster');
+const achievementRoutes = require('./src/routes/achievement');
 
 // Import database
 const { sequelize } = require('./src/models');
@@ -41,6 +43,8 @@ app.use('/api/certificates', certificateRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/calendar', calendarRoutes);
 app.use('/api/ranking', rankingRoutes);
+app.use('/api/posters', posterRoutes);
+app.use('/api/achievements', achievementRoutes);
 
 // 404 handler
 app.use((req, res) => {

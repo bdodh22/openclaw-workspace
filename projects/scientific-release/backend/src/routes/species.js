@@ -1,92 +1,160 @@
-// backend/src/routes/species.js
 const express = require('express');
 const router = express.Router();
 const { Species } = require('../models');
 
-// GET /api/species - Get all species (with filters)
-router.get('/', async (req, res, next) => {
+/**
+ * @route GET /api/species
+ * @desc 获取物种列表（支持筛选）
+ * @access Public
+ */
+router.get('/', async (req, res) => {
   try {
-    const { category, isNative, page = 1, limit = 20 } = req.query;
+    const { category, recommended, search } = req.query;
     
     const where = {};
-    if (category) where.category = category;
-    if (isNative !== undefined) where.isNative = isNative === 'true';
-    where.status = 'active';
-
-    const offset = (page - 1) * limit;
-
-    const { count, rows } = await Species.findAndCountAll({
+    
+    // 按分类筛选
+    if (category) {
+      where.category = category;
+    }
+    
+    // 只获取推荐的物种
+    if (recommended === 'true') {
+      where.isRecommended = true;
+    }
+    
+    // 搜索
+    if (search) {
+      where.name = {
+        [require('sequelize').Op.like]: `%${search}%`
+      };
+    }
+    
+    const species = await Species.findAll({
       where,
-      limit: parseInt(limit),
-      offset: parseInt(offset),
-      order: [['createdAt', 'DESC']]
-    });
-
-    res.json({
-      success: true,
-      data: rows,
-      pagination: {
-        total: count,
-        page: parseInt(page),
-        limit: parseInt(limit),
-        totalPages: Math.ceil(count / limit)
+      order: [['id', 'ASC']],
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
       }
     });
+    
+    res.json({
+      success: true,
+      data: species,
+      total: species.length
+    });
   } catch (error) {
-    next(error);
+    console.error('获取物种列表失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取物种列表失败',
+      error: error.message
+    });
   }
 });
 
-// GET /api/species/:id - Get species by ID
-router.get('/:id', async (req, res, next) => {
+/**
+ * @route GET /api/species/:id
+ * @desc 获取单个物种详情
+ * @access Public
+ */
+router.get('/:id', async (req, res) => {
   try {
-    const species = await Species.findByPk(req.params.id);
+    const species = await Species.findByPk(req.params.id, {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    });
     
     if (!species) {
       return res.status(404).json({
         success: false,
-        error: 'Species not found'
+        message: '物种不存在'
       });
     }
-
+    
     res.json({
       success: true,
       data: species
     });
   } catch (error) {
-    next(error);
+    console.error('获取物种详情失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取物种详情失败',
+      error: error.message
+    });
   }
 });
 
-// GET /api/species/search - Search species
-router.get('/search', async (req, res, next) => {
+/**
+ * @route GET /api/species/categories/list
+ * @desc 获取所有分类
+ * @access Public
+ */
+router.get('/categories/list', async (req, res) => {
   try {
-    const { keyword } = req.query;
+    const categories = await Species.findAll({
+      attributes: [
+        [require('sequelize').fn('DISTINCT', require('sequelize').col('category')), 'category'],
+        'category'
+      ],
+      group: ['category'],
+      where: { isActive: true }
+    });
     
-    if (!keyword) {
-      return res.status(400).json({
+    const categoryList = categories.map(c => c.category);
+    
+    res.json({
+      success: true,
+      data: categoryList
+    });
+  } catch (error) {
+    console.error('获取分类列表失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取分类列表失败',
+      error: error.message
+    });
+  }
+});
+
+/**
+ * @route GET /api/species/random
+ * @desc 随机获取一个推荐物种（用于每日推荐）
+ * @access Public
+ */
+router.get('/random', async (req, res) => {
+  try {
+    const species = await Species.findOne({
+      where: {
+        isRecommended: true,
+        isActive: true
+      },
+      order: require('sequelize').literal('RAND()'),
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    });
+    
+    if (!species) {
+      return res.status(404).json({
         success: false,
-        error: 'Keyword is required'
+        message: '未找到推荐物种'
       });
     }
-
-    const species = await Species.findAll({
-      where: {
-        status: 'active',
-        [require('sequelize').Op.or]: [
-          { name: { [require('sequelize').Op.like]: `%${keyword}%` } },
-          { scientificName: { [require('sequelize').Op.like]: `%${keyword}%` } }
-        ]
-      },
-      limit: 20
-    });
-
+    
     res.json({
       success: true,
       data: species
     });
   } catch (error) {
-    next(error);
+    console.error('获取随机物种失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取随机物种失败',
+      error: error.message
+    });
   }
 });
 

@@ -65,43 +65,84 @@ Page({
     wx.showLoading({ title: '登录中...' });
 
     try {
-      // WeChat login
+      // Step 1: WeChat login - get code
       const loginRes = await wx.login();
       const { code } = loginRes;
 
-      // Get user info
+      // Step 2: Get user profile (requires user authorization)
       const userInfoRes = await new Promise((resolve, reject) => {
         wx.getUserProfile({
-          desc: '用于完善用户资料',
+          desc: '用于完善用户资料，记录放生功德',
           success: resolve,
           fail: reject
         });
       });
 
-      // Send to backend
-      // In production, call your backend API here
-      const userInfo = {
-        id: 1,
-        nickname: userInfoRes.userInfo.nickName,
-        avatarUrl: userInfoRes.userInfo.avatarUrl,
-        totalReleases: 0,
-        totalMerit: 0
+      // Step 3: Call backend API
+      const loginData = {
+        code: code,
+        encryptedData: userInfoRes.encryptedData,
+        iv: userInfoRes.iv
       };
 
-      app.globalData.userInfo = userInfo;
-      app.globalData.isLoggedIn = true;
-
-      this.setData({
-        userInfo,
-        isLoggedIn: true
+      const res = await new Promise((resolve, reject) => {
+        wx.request({
+          url: `${app.globalData.apiBaseUrl}/users/login`,
+          method: 'POST',
+          data: loginData,
+          success: resolve,
+          fail: reject
+        });
       });
 
-      wx.hideLoading();
-      wx.showToast({ title: '登录成功', icon: 'success' });
+      if (res.data.success) {
+        const userInfo = res.data.data;
+        
+        // Save to global and storage
+        app.saveUserInfo(userInfo, 'token_' + userInfo.id);
+        
+        this.setData({
+          userInfo,
+          isLoggedIn: true
+        });
+
+        wx.hideLoading();
+        wx.showToast({ 
+          title: '阿弥陀佛，登录成功', 
+          icon: 'success',
+          duration: 2000
+        });
+
+        // Add merit for first login
+        if (userInfo.totalReleases === 0) {
+          setTimeout(() => {
+            wx.showModal({
+              title: '欢迎',
+              content: '🙏 阿弥陀佛，欢迎加入科学放生！\n\n首次登录赠送 10 福报积分，祝您善缘广结，福慧双增。',
+              showCancel: false,
+              confirmColor: '#C9A961'
+            });
+          }, 500);
+        }
+      } else {
+        throw new Error(res.data.error || '登录失败');
+      }
     } catch (error) {
       console.error('Login error:', error);
       wx.hideLoading();
-      wx.showToast({ title: '登录失败', icon: 'none' });
+      
+      let errorMsg = '登录失败，请重试';
+      if (error.errMsg && error.errMsg.includes('auth deny')) {
+        errorMsg = '您取消了授权';
+      } else if (error.message) {
+        errorMsg = error.message;
+      }
+      
+      wx.showToast({ 
+        title: errorMsg, 
+        icon: 'none',
+        duration: 2000
+      });
     }
   },
 

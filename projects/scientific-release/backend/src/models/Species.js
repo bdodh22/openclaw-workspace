@@ -1,69 +1,122 @@
-// backend/src/models/Species.js
-const { DataTypes } = require('sequelize');
+'use strict';
+const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Species = sequelize.define('Species', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    name: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      comment: '物种名称'
-    },
-    scientificName: {
-      type: DataTypes.STRING(200),
-      allowNull: true,
-      comment: '学名'
-    },
-    category: {
-      type: DataTypes.ENUM('fish', 'bird', 'turtle', 'mammal', 'other'),
-      allowNull: false,
-      comment: '类别：fish-鱼类，bird-鸟类，turtle-龟类，mammal-哺乳类，other-其他'
-    },
-    isNative: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-      comment: '是否本地物种（true=可以放生，false=禁止放生）'
-    },
-    habitat: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-      comment: '栖息环境描述'
-    },
-    releaseSeason: {
-      type: DataTypes.STRING(200),
-      allowNull: true,
-      comment: '适宜放生季节'
-    },
-    releaseLocation: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-      comment: '适宜放生地点类型'
-    },
-    precautions: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-      comment: '放生注意事项'
-    },
-    imageUrl: {
-      type: DataTypes.STRING(500),
-      allowNull: true,
-      comment: '物种图片 URL'
-    },
-    status: {
-      type: DataTypes.ENUM('active', 'inactive'),
-      defaultValue: 'active',
-      comment: '状态：active-启用，inactive-禁用'
+  class Species extends Model {
+    static associate(models) {
+      // 物种可以有多个放生记录
+      Species.hasMany(models.ReleaseRecord, {
+        foreignKey: 'speciesId',
+        as: 'releaseRecords'
+      });
     }
-  }, {
-    tableName: 'species',
-    timestamps: true,
-    underscored: true,
-    comment: '放生物种表'
-  });
+  }
+
+  Species.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        comment: '中文名称'
+      },
+      scientificName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        comment: '学名（拉丁名）'
+      },
+      category: {
+        type: DataTypes.ENUM('鱼类', '鸟类', '龟类', '其他'),
+        allowNull: false,
+        comment: '主要分类'
+      },
+      subcategory: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '子分类（如：淡水鱼、陆禽等）'
+      },
+      habitat: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '栖息环境'
+      },
+      nativeRegion: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '原产地/分布区域'
+      },
+      releaseSeason: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '适宜放生季节'
+      },
+      difficulty: {
+        type: DataTypes.ENUM('容易', '中等', '困难'),
+        allowNull: true,
+        comment: '放生难度'
+      },
+      price: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+        comment: '参考价格（元）'
+      },
+      unit: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '计价单位（斤/只等）'
+      },
+      merit: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '放生功德寓意'
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        comment: '物种描述'
+      },
+      imageUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '图片 URL'
+      },
+      isRecommended: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        comment: '是否推荐放生'
+      },
+      protectionLevel: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: '保护级别（无危/易危/濒危等）'
+      },
+      notes: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        comment: '放生注意事项'
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        comment: '是否启用'
+      }
+    },
+    {
+      sequelize,
+      modelName: 'Species',
+      tableName: 'species',
+      timestamps: true,
+      indexes: [
+        { fields: ['category'] },
+        { fields: ['isRecommended'] },
+        { fields: ['name'] }
+      ]
+    }
+  );
 
   return Species;
 };

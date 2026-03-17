@@ -8,27 +8,36 @@
 ## ✅ 已完成
 
 ### 开发环境
-- [x] AppID 配置完成
+- [x] AppID 配置完成 (`wxa914ecc15836bda6`)
 - [x] MySQL 8.0 数据库运行正常
 - [x] Node.js 后端服务运行正常（端口 3000）
 - [x] GitHub 私有仓库建立
 - [x] 10 条物种数据已导入
+- [x] **域名备案完成** (`sf.dexoconnect.com`)
+- [x] 微信开发者工具已安装
 
 ---
 
-## ⏳ 需要你准备的事项
+## 📋 生产环境配置
 
-### 1. 微信开发者工具（立即）
-- [ ] 下载并安装 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
-- [ ] 用小程序管理员微信扫码登录
-- [ ] 导入项目：`/home/admin/.openclaw/workspace/projects/scientific-release/frontend`
-- [ ] 编译测试
+**生产域名:** `https://sf.dexoconnect.com`  
+**后端 API:** `https://sf.dexoconnect.com/api`  
+**服务器 IP:** `8.221.123.101`
 
-### 2. 服务器域名配置（本周内）
-- [ ] **购买域名** - 建议 .com 或 .cn（约 50-80 元/年）
-- [ ] **域名备案** - 在腾讯云/阿里云提交备案申请（10-20 个工作日）
-- [ ] **HTTPS 证书** - 备案后可申请免费 Let's Encrypt 或腾讯云免费 SSL
-- [ ] **DNS 解析** - 将域名指向服务器 IP：`iZ0xi88i9gfqn5cqopjwq7Z`
+---
+
+## ⏳ 待完成事项
+
+### 1. 前端页面开发（进行中 - 3 个 agent 并行）
+- [ ] 物种详情页（species-detail）- Agent 1 开发中
+- [ ] 祈福证书页（certificate）- Agent 2 开发中
+- [ ] 佛历日历页（calendar）- Agent 3 开发中
+- [ ] 个人中心页（profile）- Agent 3 开发中
+
+### 2. 服务器 Nginx 配置（待前端完成后）
+- [ ] 安装 Nginx
+- [ ] 配置反向代理到 Node.js (端口 3000)
+- [ ] 配置 HTTPS 证书
 
 ### 3. 小程序后台配置（AppID 下来后）
 登录 [微信公众平台](https://mp.weixin.qq.com/) 使用 AppID 登录：
