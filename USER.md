@@ -2,8 +2,8 @@
 
 _Learn about the person you're helping. Update this as you go._
 
-- **Name:** 杨金霖
-- **What to call them:** 金霖
+- **Name:** [REDACTED]
+- **What to call them:** [REDACTED]
 - **Pronouns:** _(optional)_
 - **Timezone:** Asia/Shanghai
 - **Notes:** 使用 Feishu 作为主要沟通渠道

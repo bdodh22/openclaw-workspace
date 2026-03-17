@@ -252,7 +252,6 @@ sudo systemctl restart nginx
 
 ## 📞 联系方式
 
-- **项目负责人:** 杨金霖
 - **GitHub:** https://github.com/bdodh22/openclaw-workspace
 - **生产地址:** https://sf.dexoconnect.com
 - **开发开始:** 2026-03-09
