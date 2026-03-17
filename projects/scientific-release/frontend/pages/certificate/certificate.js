@@ -1,6 +1,6 @@
-// pages/certificate/certificate.js
+// pages/certificate/certificate.js - 集成触觉反馈和成功动画
 import { createCertificate, getSpeciesDetail } from '../../utils/api.js';
-import { showLoading, hideLoading, showSuccess, showError, generateCertificateNo } from '../../utils/util.js';
+import { showLoading, hideLoading, showSuccess, showError, generateCertificateNo, hapticFeedback } from '../../utils/util.js';
 
 const app = getApp();
 
@@ -96,6 +96,16 @@ Page({
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       hideLoading();
+      
+      // 触觉反馈 + 播放成功动画
+      hapticFeedback('medium');
+      this.setData({ showSuccessAnimation: true });
+      
+      // 2 秒后隐藏动画
+      setTimeout(() => {
+        this.setData({ showSuccessAnimation: false });
+      }, 2000);
+      
       showSuccess('祈福证书生成成功！');
       
       // 保存到证书列表（本地存储）

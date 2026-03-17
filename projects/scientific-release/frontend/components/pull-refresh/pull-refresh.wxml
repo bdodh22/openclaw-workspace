@@ -1,0 +1,22 @@
+<!--components/pull-refresh/pull-refresh.wxml - 自定义下拉刷新动画-->
+<view class="pull-refresh-container" style="height: {{refreshHeight}}px;">
+  <view class="pull-content">
+    <!-- 莲花绽放动画 -->
+    <view class="lotus-refresh {{pulling ? 'pulling' : ''}} {{refresh ? 'refreshing' : ''}}">
+      <view class="lotus-center-refresh">
+        <view class="lotus-petal-refresh p1"></view>
+        <view class="lotus-petal-refresh p2"></view>
+        <view class="lotus-petal-refresh p3"></view>
+        <view class="lotus-petal-refresh p4"></view>
+        <view class="lotus-petal-refresh p5"></view>
+        <view class="lotus-petal-refresh p6"></view>
+      </view>
+      <view class="refresh-icon">
+        <text wx:if="{{refresh}}">🪷</text>
+        <text wx:elif="{{pulling}}">⬇</text>
+        <text wx:else>☀</text>
+      </view>
+    </view>
+    <text class="refresh-text">{{refreshText}}</text>
+  </view>
+</view>

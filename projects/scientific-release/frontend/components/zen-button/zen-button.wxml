@@ -1,0 +1,21 @@
+<!--components/zen-button/zen-button.wxml - 新中式按钮组件-->
+<view 
+  class="zen-button zen-button-{{type}} zen-button-size-{{size}} {{disabled ? 'disabled' : ''}} {{loading ? 'loading' : ''}}"
+  catchtap="onTap"
+>
+  <!-- 流光效果层 -->
+  <view class="button-shimmer"></view>
+  
+  <!-- 按钮内容 -->
+  <view class="button-content">
+    <text class="button-icon" wx:if="{{icon}}">{{icon}}</text>
+    <text class="button-text">{{text}}</text>
+  </view>
+  
+  <!-- 加载动画 -->
+  <view class="button-loading" wx:if="{{loading}}">
+    <view class="loading-dot"></view>
+    <view class="loading-dot"></view>
+    <view class="loading-dot"></view>
+  </view>
+</view>

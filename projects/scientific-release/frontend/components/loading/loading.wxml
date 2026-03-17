@@ -1,0 +1,22 @@
+<!--components/loading/loading.wxml - 莲花绽放动画-->
+<view class="loading-overlay" wx:if="{{visible}}">
+  <view class="loading-container">
+    <!-- 莲花花瓣 -->
+    <view class="lotus">
+      <view class="petal petal-1"></view>
+      <view class="petal petal-2"></view>
+      <view class="petal petal-3"></view>
+      <view class="petal petal-4"></view>
+      <view class="petal petal-5"></view>
+      <view class="petal petal-6"></view>
+      <view class="petal petal-7"></view>
+      <view class="petal petal-8"></view>
+    </view>
+    
+    <!-- 中心光晕 -->
+    <view class="lotus-center"></view>
+    
+    <!-- 加载文字 -->
+    <text class="loading-text">{{text || '加载中...'}}</text>
+  </view>
+</view>

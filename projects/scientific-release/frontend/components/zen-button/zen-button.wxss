@@ -1,0 +1,199 @@
+/* components/zen-button/zen-button.wxss - 新中式按钮组件 */
+
+.zen-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.15);
+}
+
+/* 有机形状 - 圆角椭圆 */
+.zen-button {
+  border-radius: 9999rpx;
+}
+
+/* 流光效果层 */
+.button-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s;
+  pointer-events: none;
+}
+
+.zen-button:active:not(.disabled):not(.loading) .button-shimmer {
+  left: 100%;
+}
+
+/* 按钮内容 */
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.button-icon {
+  font-size: 1.2em;
+  filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.2));
+}
+
+.button-text {
+  font-weight: 400;
+  letter-spacing: 2rpx;
+}
+
+/* 尺寸变体 */
+.zen-button-size-small {
+  padding: 16rpx 32rpx;
+  font-size: 26rpx;
+}
+
+.zen-button-size-medium {
+  padding: 24rpx 48rpx;
+  font-size: 30rpx;
+}
+
+.zen-button-size-large {
+  padding: 32rpx 64rpx;
+  font-size: 34rpx;
+}
+
+/* 类型变体 - 烫金主按钮 */
+.zen-button-primary {
+  background: linear-gradient(135deg, #C9B037 0%, #B8945E 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8rpx 32rpx rgba(201, 176, 55, 0.4);
+}
+
+.zen-button-primary .button-text {
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 类型变体 - 黛绿次按钮 */
+.zen-button-secondary {
+  background: linear-gradient(135deg, #4A5D4E 0%, #3A4A3E 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8rpx 32rpx rgba(74, 93, 78, 0.4);
+}
+
+/* 类型变体 -  outlined 按钮 */
+.zen-button-outline {
+  background: transparent;
+  border: 2rpx solid #C9B037;
+  color: #C9B037;
+  box-shadow: none;
+}
+
+.zen-button-outline .button-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 176, 55, 0.2),
+    transparent
+  );
+}
+
+/* 类型变体 - ghost 按钮 */
+.zen-button-ghost {
+  background: transparent;
+  color: #4A5D4E;
+  box-shadow: none;
+}
+
+/* 禁用状态 */
+.zen-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* 加载状态 */
+.zen-button.loading {
+  cursor: wait;
+}
+
+.button-loading {
+  display: flex;
+  gap: 8rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.loading-dot {
+  width: 12rpx;
+  height: 12rpx;
+  background: currentColor;
+  border-radius: 50%;
+  animation: loading-bounce 1.4s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(1) { animation-delay: 0s; }
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loading-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 按压效果 */
+.zen-button:active:not(.disabled):not(.loading) {
+  transform: translateY(4rpx);
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 悬停效果（仅 H5） */
+@media (hover: hover) {
+  .zen-button:hover:not(.disabled):not(.loading) {
+    transform: translateY(-2rpx);
+    box-shadow: 0 8rpx 40rpx rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* 特殊效果 - 呼吸光晕 */
+.zen-button-primary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    circle,
+    rgba(201, 176, 55, 0.3) 0%,
+    transparent 70%
+  );
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.zen-button-primary:active::before {
+  opacity: 1;
+}

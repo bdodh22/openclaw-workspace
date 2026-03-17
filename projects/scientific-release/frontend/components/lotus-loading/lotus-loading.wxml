@@ -1,0 +1,28 @@
+<!--components/lotus-loading/lotus-loading.wxml - 莲花绽放 loading 动画-->
+<view class="lotus-loading-container" wx:if="{{visible}}">
+  <view class="lotus-overlay"></view>
+  <view class="lotus-content">
+    <!-- 莲花花瓣层 -->
+    <view class="lotus-flower">
+      <view class="petal petal-1"></view>
+      <view class="petal petal-2"></view>
+      <view class="petal petal-3"></view>
+      <view class="petal petal-4"></view>
+      <view class="petal petal-5"></view>
+      <view class="petal petal-6"></view>
+      <view class="petal petal-7"></view>
+      <view class="petal petal-8"></view>
+    </view>
+    
+    <!-- 中心光晕 -->
+    <view class="lotus-center">
+      <view class="center-glow"></view>
+      <text class="loading-text">{{loadingText || '加载中'}}</text>
+    </view>
+    
+    <!-- 涟漪效果 -->
+    <view class="ripple ripple-1"></view>
+    <view class="ripple ripple-2"></view>
+    <view class="ripple ripple-3"></view>
+  </view>
+</view>

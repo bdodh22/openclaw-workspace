@@ -1,0 +1,102 @@
+<!--pages/achievements/achievements.wxml - 成就系统页面-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">我的成就</text>
+    <text class="page-subtitle">积累善行 · 见证成长</text>
+  </view>
+
+  <!-- 成就进度总览 -->
+  <view class="overview-card">
+    <view class="overview-header">
+      <text class="overview-title">修行进度</text>
+      <text class="overview-level">Lv.{{userLevel}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+    </view>
+    <view class="progress-text">
+      <text>{{currentExp}} / {{nextLevelExp}} 功德值</text>
+    </view>
+  </view>
+
+  <!-- 成就分类标签 -->
+  <view class="category-tabs">
+    <view 
+      class="tab-item {{currentTab === 'all' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="all"
+    >
+      全部
+    </view>
+    <view 
+      class="tab-item {{currentTab === 'species' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="species"
+    >
+      放生
+    </view>
+    <view 
+      class="tab-item {{currentTab === 'merit' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="merit"
+    >
+      功德
+    </view>
+    <view 
+      class="tab-item {{currentTab === 'special' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="special"
+    >
+      特殊
+    </view>
+  </view>
+
+  <!-- 成就列表 -->
+  <view class="achievements-list">
+    <view 
+      class="achievement-card {{item.unlocked ? 'unlocked' : 'locked'}}"
+      wx:for="{{achievements}}"
+      wx:key="id"
+      bindtap="viewAchievement"
+      data-item="{{item}}"
+    >
+      <!-- 成就图标 -->
+      <view class="achievement-icon">
+        <text class="icon">{{item.icon}}</text>
+        <!-- 解锁光晕 -->
+        <view class="unlock-glow" wx:if="{{item.unlocked}}"></view>
+      </view>
+
+      <!-- 成就信息 -->
+      <view class="achievement-info">
+        <view class="achievement-header">
+          <text class="achievement-name">{{item.name}}</text>
+          <view class="achievement-badge" wx:if="{{item.unlocked}}">
+            <text class="badge-text">已达成</text>
+          </view>
+        </view>
+        <text class="achievement-desc">{{item.description}}</text>
+        <view class="achievement-progress" wx:if="{{!item.unlocked && item.progress}}">
+          <view class="progress-bar-small">
+            <view class="progress-fill-small" style="width: {{item.progressPercent}}%"></view>
+          </view>
+          <text class="progress-text-small">{{item.current}} / {{item.target}}</text>
+        </view>
+      </view>
+
+      <!-- 功德奖励 -->
+      <view class="achievement-reward">
+        <text class="reward-icon">✨</text>
+        <text class="reward-text">+{{item.reward}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{achievements.length === 0}}">
+    <text class="empty-icon">🏆</text>
+    <text class="empty-text">暂无成就记录</text>
+    <text class="empty-subtext">开始放生，解锁第一个成就</text>
+  </view>
+</view>

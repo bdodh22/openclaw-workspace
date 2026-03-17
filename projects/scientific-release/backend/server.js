@@ -3,8 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const morgan = require('morgan');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
+const { setupLogger } = require('./src/middleware/logger');
 
 // Import routes
 const speciesRoutes = require('./src/routes/species');
@@ -21,12 +22,40 @@ const { sequelize } = require('./src/models');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Security: Rate limiting
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: {
+    success: false,
+    error: 'Too many requests, please try again later'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Stricter limit for login endpoint
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 login attempts per windowMs
+  message: {
+    success: false,
+    error: 'Too many login attempts, please try again later'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Middleware
 app.use(helmet()); // Security headers
 app.use(cors()); // Enable CORS
-app.use(morgan('combined')); // Logging
+setupLogger(app); // File-based logging
 app.use(express.json()); // Parse JSON
 app.use(express.urlencoded({ extended: true }));
+
+// Apply rate limiting to API routes
+app.use('/api/', apiLimiter);
+app.use('/api/users/login', loginLimiter);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

@@ -1,5 +1,28 @@
-<!--pages/certificate/certificate.wxml - Modern Zen Design: 动态电子证书-->
+<!--pages/certificate/certificate.wxml - Modern Zen Design: 动态电子证书 + 樱花动画-->
 <view class="container">
+  <!-- 樱花飘落背景动画 -->
+  <view class="sakura-container">
+    <view class="sakura-petal" style="left: 10%; animation-delay: 0s;"></view>
+    <view class="sakura-petal" style="left: 30%; animation-delay: 2s;"></view>
+    <view class="sakura-petal" style="left: 50%; animation-delay: 4s;"></view>
+    <view class="sakura-petal" style="left: 70%; animation-delay: 1s;"></view>
+    <view class="sakura-petal" style="left: 90%; animation-delay: 3s;"></view>
+    <view class="sakura-petal" style="left: 20%; animation-delay: 5s;"></view>
+    <view class="sakura-petal" style="left: 80%; animation-delay: 2.5s;"></view>
+  </view>
+
+  <!-- 成功仪式感动画层 -->
+  <view class="success-animation" wx:if="{{showSuccessAnimation}}">
+    <view class="success-overlay"></view>
+    <view class="success-content animate-scale-in">
+      <view class="success-icon">✨</view>
+      <text class="success-text">功德圆满</text>
+      <view class="fish-animation">
+        <text class="fish">🐟</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 页面标题 -->
   <view class="page-header animate-fade-in">
     <text class="page-title">祈福证书</text>

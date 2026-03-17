@@ -4,6 +4,7 @@ const router = express.Router();
 const { User } = require('../models');
 const crypto = require('crypto');
 const axios = require('axios');
+const { body, validationResult } = require('express-validator');
 
 // WeChat API endpoints
 const WECHAT_AUTH_URL = 'https://api.weixin.qq.com/sns/jscode2session';
@@ -22,9 +23,18 @@ router.post('/login', async (req, res, next) => {
     }
 
     // Step 1: Exchange code for session_key and openid
+    // Validate WECHAT_SECRET is configured
+    if (!process.env.WECHAT_SECRET) {
+      console.error('❌ WECHAT_SECRET environment variable is not configured!');
+      return res.status(500).json({
+        success: false,
+        error: 'Server configuration error'
+      });
+    }
+
     const appConfig = {
       appid: process.env.WECHAT_APPID || 'wxa914ecc15836bda6',
-      secret: process.env.WECHAT_SECRET || ''
+      secret: process.env.WECHAT_SECRET
     };
 
     const authRes = await axios.get(WECHAT_AUTH_URL, {
@@ -142,8 +152,26 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // PUT /api/users/:id - Update user profile
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', [
+  body('nickname')
+    .optional()
+    .isLength({ min: 2, max: 20 }).withMessage('Nickname must be 2-20 characters')
+    .matches(/^[\u4e00-\u9fa5a-zA-Z0-9_]+$/).withMessage('Nickname can only contain Chinese, English, numbers and underscores'),
+  body('phone')
+    .optional()
+    .isMobilePhone('zh-CN').withMessage('Invalid phone number format')
+], async (req, res, next) => {
   try {
+    // Validate input
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        details: errors.array()
+      });
+    }
+
     const { nickname, phone } = req.body;
     
     const user = await User.findByPk(req.params.id);

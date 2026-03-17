@@ -1,0 +1,93 @@
+/* components/pull-refresh/pull-refresh.wxss - 自定义下拉刷新动画 */
+
+.pull-refresh-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+.pull-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+/* 莲花刷新动画 */
+.lotus-refresh {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.lotus-refresh.pulling {
+  transform: scale(1.1);
+}
+
+.lotus-refresh.refreshing {
+  animation: lotus-spin 1.5s linear infinite;
+}
+
+@keyframes lotus-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.lotus-center-refresh {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.lotus-petal-refresh {
+  position: absolute;
+  width: 24rpx;
+  height: 40rpx;
+  background: linear-gradient(180deg, #C9B037 0%, #E5C55A 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  transform-origin: center bottom;
+  box-shadow: 0 2rpx 12rpx rgba(201, 176, 55, 0.5);
+}
+
+.lotus-refresh.refreshing .lotus-petal-refresh {
+  animation: petal-pulse 1s ease-in-out infinite;
+}
+
+@keyframes petal-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* 6 个花瓣 */
+.p1 { left: 50%; top: 0; transform: translateX(-50%) rotate(0deg); animation-delay: 0s; }
+.p2 { left: 50%; top: 0; transform: translateX(-50%) rotate(60deg); animation-delay: 0.1s; }
+.p3 { left: 50%; top: 0; transform: translateX(-50%) rotate(120deg); animation-delay: 0.2s; }
+.p4 { left: 50%; top: 0; transform: translateX(-50%) rotate(180deg); animation-delay: 0.3s; }
+.p5 { left: 50%; top: 0; transform: translateX(-50%) rotate(240deg); animation-delay: 0.4s; }
+.p6 { left: 50%; top: 0; transform: translateX(-50%) rotate(300deg); animation-delay: 0.5s; }
+
+.refresh-icon {
+  position: relative;
+  z-index: 10;
+  font-size: 40rpx;
+  filter: drop-shadow(0 2rpx 8rpx rgba(201, 176, 55, 0.6));
+}
+
+.refresh-text {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 1rpx;
+}

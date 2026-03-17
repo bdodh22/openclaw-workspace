@@ -2,6 +2,23 @@
 // 通用工具函数
 
 /**
+ * 触觉反馈（Haptic Feedback）
+ * type: 'light' | 'medium' | 'heavy'
+ */
+export function hapticFeedback(type = 'light') {
+  try {
+    wx.vibrateShort({
+      type: type,
+      fail: () => {
+        // 忽略失败（部分设备可能不支持）
+      }
+    });
+  } catch (e) {
+    // 静默失败
+  }
+}
+
+/**
  * 格式化日期
  */
 export function formatDate(date) {
