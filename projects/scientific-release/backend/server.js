@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const { setupLogger } = require('./src/middleware/logger');
+const { startMemoryMonitoring, getMemoryStatus } = require('./src/middleware/memory-monitor');
 
 // Import routes
 const speciesRoutes = require('./src/routes/species');
@@ -22,6 +23,9 @@ const { sequelize } = require('./src/models');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy for Nginx reverse proxy (fixes X-Forwarded-For error)
+app.set('trust proxy', true);
+
 // Security: Rate limiting
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -32,6 +36,10 @@ const apiLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  // Fix X-Forwarded-For parsing error
+  validate: { xForwardedForHeader: true },
+  // Skip health checks from rate limiting
+  skip: (req) => req.url === '/health'
 });
 
 // Stricter limit for login endpoint
@@ -44,6 +52,8 @@ const loginLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  // Fix X-Forwarded-For parsing error
+  validate: { xForwardedForHeader: true }
 });
 
 // Middleware
@@ -59,11 +69,23 @@ app.use('/api/users/login', loginLimiter);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
+  const memoryInfo = getMemoryStatus();
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    memory: {
+      status: memoryInfo.status,
+      heapUsed: memoryInfo.heapUsed,
+      heapUsedPercent: memoryInfo.heapUsedPercent,
+      trend: memoryInfo.trend.trend
+    }
   });
+});
+
+// Memory status endpoint (for monitoring)
+app.get('/status/memory', (req, res) => {
+  res.json(getMemoryStatus());
 });
 
 // API Routes
@@ -105,10 +127,14 @@ async function startServer() {
       console.log('✅ Database synchronized.');
     }
 
+    // Start memory monitoring
+    startMemoryMonitoring();
+
     // Start server
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`📊 Memory monitoring enabled`);
     });
   } catch (error) {
     console.error('❌ Unable to start server:', error);
