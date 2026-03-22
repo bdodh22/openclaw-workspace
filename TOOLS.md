@@ -17,13 +17,10 @@ Things like:
 
 ## 📱 科学放生小程序 - 服务器配置
 
-**服务器 IP:** `8.221.123.101`  
+**服务器 IP:** 见部署文档  
 **后端端口:** `3000`  
-**生产域名:** `https://sf.dexoconnect.com`  
-**微信小程序 AppID:** `wxa914ecc15836bda6`
-
-**开发环境 API 地址:** `http://8.221.123.101:3000/api`  
-**生产环境 API 地址:** `https://sf.dexoconnect.com/api`
+**生产域名:** 见 `.env` 配置  
+**微信小程序 AppID:** 见 `.env` 配置
 
 **GitHub 仓库:** https://github.com/bdodh22/openclaw-workspace
 

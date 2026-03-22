@@ -10,9 +10,8 @@ Private Development Workspace
 
 **高端放生平台 | 现代东方禅意设计**
 
-- **生产环境:** https://sf.dexoconnect.com
-- **微信小程序 AppID:** `wxa914ecc15836bda6`
 - **状态:** ✅ 生产就绪
+- **生产配置:** 见 `projects/scientific-release/.env.example`
 
 [查看项目详情 →](./projects/scientific-release/)
 

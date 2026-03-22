@@ -12,8 +12,7 @@ _Learn about the person you're helping. Update this as you go._
 
 正在开发**科学放生小程序** - 一个高端放生平台
 - GitHub: https://github.com/bdodh22/openclaw-workspace
-- 生产域名：https://sf.dexoconnect.com/api
-- 微信小程序 AppID: wxa914ecc15836bda6
+- 生产配置：见 `projects/scientific-release/backend/.env.example`
 - 设计风格：现代东方禅意 (黛绿 #4A5D4E + 暖沙金 #C9B037 + 米宣纸白 #EFEEE9)
 
 ---
