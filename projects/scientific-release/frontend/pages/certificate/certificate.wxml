@@ -121,7 +121,7 @@
     <view class="cert-body">
       <text class="cert-text">今有善信</text>
       <text class="cert-name">{{userName || '某某居士'}}</text>
-      <text class="cert-text">于{{releaseDate || '吉日}}放生{{selectedSpecies?.name || '物命'}}
+      <text class="cert-text">于{{releaseDate || '吉日'}}放生{{selectedSpecies?.name || '物命'}}</text>
       <text class="cert-text">{{blessingText || '祈愿众生离苦得乐，福慧增长'}}</text>
     </view>
     

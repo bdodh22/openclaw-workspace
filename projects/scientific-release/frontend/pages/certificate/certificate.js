@@ -1,49 +1,99 @@
 // pages/certificate/certificate.js - 集成触觉反馈和成功动画
-import { createCertificate, getSpeciesDetail } from '../../utils/api.js';
+import { createCertificate, getSpeciesList } from '../../utils/api.js';
 import { showLoading, hideLoading, showSuccess, showError, generateCertificateNo, hapticFeedback } from '../../utils/util.js';
 
 const app = getApp();
 
 Page({
   data: {
-    speciesId: null,
-    species: null,
+    showSuccessAnimation: false,
+    showPreview: false,
+    meritNumber: '',
+    speciesOptions: [],
+    speciesIndex: -1,
+    selectedSpecies: null,
     blessingText: '',
     releaseLocation: '',
     releaseDate: new Date().toISOString().split('T')[0],
+    userName: '',
+    currentDate: '',
+    certificateList: [],
     userInfo: null
   },
 
   onLoad(options) {
-    if (options.speciesId) {
-      this.setData({ speciesId: options.speciesId });
-      this.loadSpeciesDetail(options.speciesId);
-    }
+    // 加载物种列表
+    this.loadSpeciesList();
     
-    // 获取用户信息（模拟）
+    // 获取用户信息
     this.loadUserInfo();
+    
+    // 加载证书列表
+    this.loadCertificateList();
+    
+    // 设置当前日期
+    const now = new Date();
+    this.setData({
+      currentDate: `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
+    });
+    
+    // 生成功德编号
+    this.setData({
+      meritNumber: generateCertificateNo()
+    });
   },
 
-  async loadSpeciesDetail(id) {
+  async loadSpeciesList() {
     showLoading('加载中...');
     
     try {
-      const res = await getSpeciesDetail(id);
-      this.setData({ species: res.data });
+      const res = await getSpeciesList(1, 50);
+      const speciesList = res.data || res.list || [];
+      this.setData({
+        speciesOptions: speciesList,
+        speciesIndex: 0
+      });
+      if (speciesList.length > 0) {
+        this.setData({ selectedSpecies: speciesList[0] });
+      }
       hideLoading();
     } catch (error) {
       hideLoading();
-      showError('加载物种信息失败');
+      // 加载失败时使用默认数据
+      this.setData({
+        speciesOptions: [
+          { id: 1, name: '鲫鱼' },
+          { id: 2, name: '鲤鱼' },
+          { id: 3, name: '泥鳅' }
+        ]
+      });
     }
   },
 
   loadUserInfo() {
-    // TODO: 实际项目中从 app.globalData 获取
+    // 从 app.globalData 获取用户信息
+    const userInfo = app.globalData?.userInfo || {
+      nickname: '善信',
+      avatarUrl: ''
+    };
     this.setData({
-      userInfo: {
-        nickname: '善信',
-        avatarUrl: ''
-      }
+      userInfo,
+      userName: userInfo.nickname || '善信'
+    });
+  },
+
+  loadCertificateList() {
+    const key = 'user_certificates';
+    const certificates = wx.getStorageSync(key) || [];
+    this.setData({ certificateList: certificates });
+  },
+
+  onSpeciesChange(e) {
+    const index = parseInt(e.detail.value);
+    const species = this.data.speciesOptions[index];
+    this.setData({
+      speciesIndex: index,
+      selectedSpecies: species
     });
   },
 
@@ -65,10 +115,10 @@ Page({
     });
   },
 
-  async submitCertificate() {
-    const { species, blessingText, releaseLocation, releaseDate } = this.data;
+  async generateCertificate() {
+    const { selectedSpecies, blessingText, releaseLocation, releaseDate } = this.data;
     
-    if (!species) {
+    if (!selectedSpecies) {
       showError('请选择物种');
       return;
     }
@@ -83,48 +133,35 @@ Page({
     try {
       const certificateNo = generateCertificateNo();
       
-      // TODO: 实际项目中调用 API
-      // const res = await createCertificate({
-      //   speciesId: species.id,
-      //   blessingText,
-      //   releaseLocation,
-      //   releaseDate,
-      //   certificateNo
-      // });
-
       // 模拟生成成功
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 800));
       
       hideLoading();
       
-      // 触觉反馈 + 播放成功动画
+      // 触觉反馈
       hapticFeedback('medium');
-      this.setData({ showSuccessAnimation: true });
-      
-      // 2 秒后隐藏动画
-      setTimeout(() => {
-        this.setData({ showSuccessAnimation: false });
-      }, 2000);
       
       showSuccess('祈福证书生成成功！');
       
-      // 保存到证书列表（本地存储）
+      // 保存到证书列表
       this.saveCertificate({
+        id: Date.now(),
         certificateNo,
-        species,
+        species: selectedSpecies,
         blessingText,
         releaseLocation,
         releaseDate,
+        meritPoints: 100,
         createTime: new Date().toISOString()
       });
 
-      // 显示证书预览
-      this.showCertificatePreview({
-        certificateNo,
-        species,
-        blessingText,
-        releaseLocation,
-        releaseDate
+      // 显示预览
+      this.setData({ showPreview: true });
+      
+      // 滚动到预览区域
+      wx.pageScrollTo({
+        scrollTop: 1000,
+        duration: 300
       });
     } catch (error) {
       hideLoading();
@@ -133,23 +170,29 @@ Page({
   },
 
   saveCertificate(certificate) {
-    // 本地存储证书
     const key = 'user_certificates';
     const certificates = wx.getStorageSync(key) || [];
     certificates.unshift(certificate);
     wx.setStorageSync(key, certificates);
+    this.setData({ certificateList: certificates });
   },
 
-  showCertificatePreview(data) {
-    // 跳转到证书预览页或显示预览
-    wx.navigateTo({
-      url: `/pages/certificate/certificate-preview?data=${encodeURIComponent(JSON.stringify(data))}`
+  shareToFriends() {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
     });
+    showSuccess('点击右上角分享');
   },
 
-  chooseSpecies() {
-    wx.navigateTo({
-      url: '/pages/species/species'
-    });
+  saveCertificate() {
+    // TODO: 实现证书保存为图片
+    showSuccess('保存功能开发中...');
+  },
+
+  viewCertificate(e) {
+    const id = e.currentTarget.dataset.id;
+    // TODO: 查看详情
+    showSuccess('查看证书详情');
   }
 });
