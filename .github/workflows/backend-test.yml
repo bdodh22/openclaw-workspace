@@ -1,0 +1,64 @@
+name: Backend Tests
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'projects/scientific-release/backend/**'
+  pull_request:
+    branches: [master, main]
+    paths:
+      - 'projects/scientific-release/backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: scientific_release_test
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 3306:3306
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: projects/scientific-release/backend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./projects/scientific-release/backend
+        run: npm ci
+      
+      - name: Run tests
+        working-directory: ./projects/scientific-release/backend
+        env:
+          NODE_ENV: test
+          DB_HOST: localhost
+          DB_PORT: 3306
+          DB_USER: test_user
+          DB_PASSWORD: test_password
+          DB_NAME: scientific_release_test
+          WECHAT_APPID: test_appid
+          WECHAT_SECRET: test_secret
+        run: npm test
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./projects/scientific-release/backend/coverage/coverage-final.json
+          flags: backend

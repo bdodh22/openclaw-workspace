@@ -144,7 +144,7 @@ Page({
       showSuccess('祈福证书生成成功！');
       
       // 保存到证书列表
-      this.saveCertificate({
+      this.saveCertificateToLocal({
         id: Date.now(),
         certificateNo,
         species: selectedSpecies,
@@ -169,7 +169,7 @@ Page({
     }
   },
 
-  saveCertificate(certificate) {
+  saveCertificateToLocal(certificate) {
     const key = 'user_certificates';
     const certificates = wx.getStorageSync(key) || [];
     certificates.unshift(certificate);
@@ -185,7 +185,7 @@ Page({
     showSuccess('点击右上角分享');
   },
 
-  saveCertificate() {
+  saveCertificateToImage() {
     // TODO: 实现证书保存为图片
     showSuccess('保存功能开发中...');
   },

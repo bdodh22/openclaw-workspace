@@ -1,0 +1,98 @@
+name: Skills Tests
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'skills/**'
+  pull_request:
+    branches: [master, main]
+    paths:
+      - 'skills/**'
+
+jobs:
+  test-skills:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        skill:
+          - github
+          - searxng
+          - sonoscli
+          - memory-manager
+          - memory-hygiene
+          - skill-finder-cn
+          - superdesign
+          - ui-ux-design
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python (for searxng)
+        if: matrix.skill == 'searxng'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: skills/searxng/requirements.txt
+      
+      - name: Install Python dependencies (for searxng)
+        if: matrix.skill == 'searxng'
+        run: |
+          pip install pytest pytest-cov httpx rich
+          cd skills/searxng
+      
+      - name: Setup Node.js (for skills with package.json)
+        if: matrix.skill == 'skill-finder-cn'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Go (for sonoscli)
+        if: matrix.skill == 'sonoscli'
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      
+      - name: Run skill tests
+        run: |
+          cd skills/${{ matrix.skill }}
+          if [ -f "tests/test.sh" ]; then
+            chmod +x tests/test.sh
+            ./tests/test.sh
+          elif [ -f "tests/test_searxng.py" ]; then
+            pytest tests/test_searxng.py -v
+          else
+            echo "No tests found for ${{ matrix.skill }}"
+            exit 1
+          fi
+
+  validate-skill-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate all skills have required files
+        run: |
+          for skill_dir in skills/*/; do
+            skill_name=$(basename "$skill_dir")
+            echo "Validating $skill_name..."
+            
+            if [ ! -f "$skill_dir/SKILL.md" ]; then
+              echo "❌ $skill_name: Missing SKILL.md"
+              exit 1
+            fi
+            
+            if [ ! -f "$skill_dir/_meta.json" ]; then
+              echo "❌ $skill_name: Missing _meta.json"
+              exit 1
+            fi
+            
+            if [ ! -d "$skill_dir/.clawhub" ]; then
+              echo "❌ $skill_name: Missing .clawhub directory"
+              exit 1
+            fi
+            
+            echo "✅ $skill_name: Valid"
+          done
+          echo "All skills validated successfully!"
