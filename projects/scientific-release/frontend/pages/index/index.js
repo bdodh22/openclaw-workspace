@@ -52,13 +52,13 @@ Page({
   },
 
   goToSpecies() {
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/species/species'
     });
   },
 
   goToCertificate() {
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/certificate/certificate'
     });
   },
@@ -69,12 +69,6 @@ Page({
     });
   },
 
-  goToKnowledge() {
-    wx.navigateTo({
-      url: '/pages/knowledge/knowledge'
-    });
-  },
-
   goToRanking() {
     wx.navigateTo({
       url: '/pages/ranking/ranking'
@@ -82,7 +76,7 @@ Page({
   },
 
   goToProfile() {
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/profile/profile'
     });
   }
