@@ -1,113 +1,186 @@
-<!--pages/species/species.wxml - Modern Zen Design: 生命图鉴式卡片-->
+<!--pages/species/species.wxml - Stitch Design: 生命图鉴式卡片-->
 <view class="container">
-  <!-- 搜索栏 - 悬浮胶囊 -->
-  <view class="search-bar">
-    <view class="search-input-wrap">
+  <!-- Top Navigation Bar -->
+  <view class="top-nav">
+    <view class="nav-brand">
+      <text class="brand-icon">🌿</text>
+      <text class="brand-title">生灵守护</text>
+    </view>
+    <view class="nav-links">
+      <text class="nav-link">首页</text>
+      <text class="nav-link active">物种</text>
+      <text class="nav-link">证书</text>
+      <text class="nav-link">我的</text>
+    </view>
+  </view>
+
+  <!-- Search Bar Section -->
+  <view class="search-section">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
       <input 
         class="search-input" 
-        placeholder="搜索物种名称..." 
+        placeholder="搜索物种名称或科学分类..." 
         value="{{keyword}}"
         bindinput="onSearchInput"
         confirm-type="search"
         bindconfirm="doSearch"
       />
-      <button class="search-btn" bindtap="doSearch">搜索</button>
-    </view>
-    
-    <!-- 分类筛选 - 胶囊标签 -->
-    <view class="category-filter">
-      <view 
-        class="category-item {{currentCategory === '' ? 'active' : ''}}"
-        bindtap="selectCategory"
-        data-category=""
-      >全部</view>
-      <view 
-        class="category-item {{currentCategory === 'fish' ? 'active' : ''}}"
-        bindtap="selectCategory"
-        data-category="fish"
-      >鱼类</view>
-      <view 
-        class="category-item {{currentCategory === 'bird' ? 'active' : ''}}"
-        bindtap="selectCategory"
-        data-category="bird"
-      >鸟类</view>
-      <view 
-        class="category-item {{currentCategory === 'turtle' ? 'active' : ''}}"
-        bindtap="selectCategory"
-        data-category="turtle"
-      >龟类</view>
-      <view 
-        class="category-item {{currentCategory === 'mammal' ? 'active' : ''}}"
-        bindtap="selectCategory"
-        data-category="mammal"
-      >哺乳类</view>
-      <view 
-        class="category-item {{currentCategory === 'other' ? 'active' : ''}}"
-        bindtap="selectCategory"
-        data-category="other"
-      >其他</view>
+      <button class="filter-btn" bindtap="doSearch">
+        <text class="filter-icon">⚙</text>
+      </button>
     </view>
   </view>
 
-  <!-- 物种列表 - 生命图鉴式卡片 -->
-  <view class="species-list">
+  <!-- Category Filters -->
+  <view class="category-section">
+    <scroll-view class="category-scroll" scroll-x enable-flex>
+      <view class="category-list">
+        <view 
+          class="category-chip {{currentCategory === '' ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-category=""
+        >
+          <text>All 全部</text>
+        </view>
+        <view 
+          class="category-chip {{currentCategory === 'fish' ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-category="fish"
+        >
+          <text>Fish 鱼类</text>
+        </view>
+        <view 
+          class="category-chip {{currentCategory === 'bird' ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-category="bird"
+        >
+          <text>Birds 鸟类</text>
+        </view>
+        <view 
+          class="category-chip {{currentCategory === 'turtle' ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-category="turtle"
+        >
+          <text>Turtles 龟类</text>
+        </view>
+        <view 
+          class="category-chip {{currentCategory === 'mammal' ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-category="mammal"
+        >
+          <text>Mammals 哺乳类</text>
+        </view>
+        <view 
+          class="category-chip {{currentCategory === 'other' ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-category="other"
+        >
+          <text>Other 其他</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- Species Grid -->
+  <view class="species-grid">
+    <!-- Species Card -->
     <view 
-      class="species-card {{item.isNative ? 'native' : 'forbidden'}} animate-slide-in animate-delay-{{index % 5}}"
+      class="species-card" 
       wx:for="{{speciesList}}" 
       wx:key="id"
       bindtap="goToDetail"
       data-id="{{item.id}}"
     >
-      <!-- 物种插图区域 - 圆形去底效果 -->
-      <view class="species-illustration">
-        <text class="species-icon">{{item.icon || '🐟'}}</text>
-      </view>
-      
-      <view class="species-card-header">
-        <view>
-          <text class="species-name">{{item.name}}</text>
-          <text class="species-scientific" wx:if="{{item.scientificName}}">{{item.scientificName}}</text>
+      <!-- Species Image - Circular Cutout -->
+      <view class="species-image-wrapper">
+        <view class="species-image">
+          <image 
+            class="species-img" 
+            src="{{item.imageUrl || '/images/species/default.png'}}" 
+            mode="aspectFill"
+            lazy-load
+          />
+        </view>
+        <!-- Prohibited Badge -->
+        <view class="prohibited-badge" wx:if="{{!item.isNative}}">
+          <text class="badge-icon">⛔</text>
         </view>
       </view>
-      
-      <view class="species-card-body">
-        <!-- 标签系统 -->
-        <view class="species-tags">
-          <view class="tag tag-native" wx:if="{{item.isNative}}">✓ 本地物种</view>
-          <view class="tag tag-warning" wx:else>⚠ 禁止放生</view>
-          <view class="tag tag-category" wx:if="{{item.category}}">{{getCategoryName(item.category)}}</view>
+
+      <!-- Card Content -->
+      <view class="card-content">
+        <!-- Tags -->
+        <view class="card-tags">
+          <view class="tag tag-native" wx:if="{{item.isNative}}">
+            <text>Native Species</text>
+          </view>
+          <view class="tag tag-prohibited" wx:else>
+            <text>Prohibited Release</text>
+          </view>
+          <view class="tag tag-classification">
+            <text>Classification: {{item.category}}</text>
+          </view>
         </view>
-        
-        <!-- 栖息地信息 -->
-        <view class="species-habitat" wx:if="{{item.habitat}}">
-          <text>📍 {{item.habitat}}</text>
+
+        <!-- Species Name -->
+        <view class="card-header">
+          <text class="species-name-cn">{{item.name}}</text>
+          <text class="species-name-en" wx:if="{{item.scientificName}}">{{item.scientificName}}</text>
         </view>
-        
-        <!-- 放生意义 - 禅意卡片 -->
-        <view class="species-meaning" wx:if="{{item.meaning}}">
-          <text class="meaning-title">放生意义</text>
-          <text class="meaning-text">{{item.meaning}}</text>
-        </view>
+
+        <!-- Description -->
+        <text class="species-description">{{item.description}}</text>
       </view>
     </view>
 
-    <!-- 空状态 - 禅意留白 -->
+    <!-- Empty State -->
     <view class="empty-state" wx:if="{{speciesList.length === 0 && !loading}}">
       <text class="empty-icon">🔍</text>
       <text class="empty-text">暂无物种数据</text>
       <text class="empty-subtext">尝试其他搜索关键词</text>
     </view>
 
-    <!-- 加载状态 - 呼吸效果 -->
-    <view class="loading" wx:if="{{loading}}">
-      <dot></dot>
-      <dot></dot>
-      <dot></dot>
+    <!-- Loading State -->
+    <view class="loading-state" wx:if="{{loading}}">
+      <view class="loading-dots">
+        <view class="dot"></view>
+        <view class="dot"></view>
+        <view class="dot"></view>
+      </view>
     </view>
+  </view>
 
-    <!-- 加载更多 -->
-    <view class="load-more" wx:if="{{hasMore && !loading}}" bindtap="loadMore">
-      <text>加载更多</text>
+  <!-- Information Prompt -->
+  <view class="info-prompt" wx:if="{{speciesList.length > 0}}">
+    <view class="prompt-icon">📖</view>
+    <view class="prompt-content">
+      <text class="prompt-title">科学指南</text>
+      <text class="prompt-text">所有放归活动必须符合《中华人民共和国生物安全法》规定，请在放归前查阅完整指南。</text>
+    </view>
+    <button class="learn-more-btn">
+      <text>了解更多</text>
+      <text class="arrow-icon">→</text>
+    </button>
+  </view>
+
+  <!-- Bottom Navigation Bar -->
+  <view class="bottom-nav">
+    <view class="nav-item" bindtap="goToIndex">
+      <text class="nav-icon">🏠</text>
+      <text class="nav-label">首页</text>
+    </view>
+    <view class="nav-item active">
+      <text class="nav-icon">🐟</text>
+      <text class="nav-label">物种</text>
+    </view>
+    <view class="nav-item" bindtap="goToCertificate">
+      <text class="nav-icon">🏆</text>
+      <text class="nav-label">证书</text>
+    </view>
+    <view class="nav-item" bindtap="goToProfile">
+      <text class="nav-icon">👤</text>
+      <text class="nav-label">我的</text>
     </view>
   </view>
 </view>

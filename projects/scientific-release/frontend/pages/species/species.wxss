@@ -1,389 +1,569 @@
-/* pages/species/species.wxss - Modern Zen Design: 生命图鉴式卡片 */
+/* pages/species/species.wxss - Stitch Design: 生命图鉴式卡片 */
 
-/* ===== 搜索栏 - 悬浮胶囊 ===== */
-.search-bar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(249, 248, 244, 0.95) 100%);
-  backdrop-filter: blur(20rpx);
-  padding: 24rpx 32rpx;
-  margin-bottom: 24rpx;
-  box-shadow: 0 4rpx 24rpx rgba(74, 93, 78, 0.06);
+/* ===== Design Tokens ===== */
+page {
+  /* Colors from DESIGN.md */
+  --primary: #334537;
+  --primary-container: #4A5D4E;
+  --on-primary: #FFFFFF;
+  --on-primary-fixed: #0E1F13;
+  --primary-fixed: #D3E8D5;
+  --primary-fixed-dim: #B7CCB9;
+  
+  --secondary: #6E5E00;
+  --secondary-container: #FEE264;
+  --on-secondary: #FFFFFF;
+  --on-secondary-fixed: #211B00;
+  --secondary-fixed: #FEE264;
+  --secondary-fixed-dim: #E0C64B;
+  
+  --surface: #FAF9F4;
+  --surface-container: #EFEEE9;
+  --surface-container-low: #F5F4EF;
+  --surface-container-lowest: #FFFFFF;
+  --surface-container-high: #E9E8E3;
+  --surface-container-highest: #E3E2DE;
+  
+  --on-surface: #1B1C19;
+  --on-surface-variant: #434843;
+  
+  --outline: #737872;
+  --outline-variant: #C3C8C1;
+  
+  --error: #BA1A1A;
+  --error-container: #FFDAD6;
+  --on-error: #FFFFFF;
+  
+  /* Typography */
+  --font-headline: 'Noto Serif', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-label: 'Plus Jakarta Sans', sans-serif;
+  
+  /* Spacing */
+  --spacing-xs: 8rpx;
+  --spacing-sm: 16rpx;
+  --spacing-md: 24rpx;
+  --spacing-lg: 32rpx;
+  --spacing-xl: 40rpx;
+  
+  /* Border Radius */
+  --radius-sm: 12rpx;
+  --radius-md: 20rpx;
+  --radius-lg: 28rpx;
+  --radius-xl: 32rpx;
+  --radius-full: 9999rpx;
+  
+  /* Shadows */
+  --shadow-ambient: 0 4rpx 20rpx rgba(27, 28, 25, 0.04);
+  --shadow-elevated: 0 8rpx 32rpx rgba(27, 28, 25, 0.08);
+  --shadow-floated: 0 -4rpx 24rpx rgba(0, 0, 0, 0.04);
 }
 
-.search-input-wrap {
+/* ===== Container ===== */
+.container {
+  min-height: 100vh;
+  background: var(--surface);
+  padding-bottom: 120rpx;
+}
+
+/* ===== Top Navigation Bar ===== */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 112rpx;
+  padding: 0 var(--spacing-lg);
+  background: var(--primary-container);
+  backdrop-filter: blur(20rpx);
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.06);
+}
+
+.nav-brand {
   display: flex;
   align-items: center;
-  gap: 16rpx;
-  background: var(--bg-card);
-  padding: 8rpx;
-  border-radius: 48rpx;
-  border: 1rpx solid var(--border-color);
-  box-shadow: var(--shadow-soft);
-  transition: all 0.3s;
+  gap: var(--spacing-sm);
 }
 
-.search-input-wrap:focus-within {
-  border-color: var(--primary-color);
-  box-shadow: var(--shadow-elevated);
+.brand-icon {
+  font-size: 48rpx;
+}
+
+.brand-title {
+  font-family: var(--font-headline);
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--secondary-fixed);
+  letter-spacing: 4rpx;
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.nav-link {
+  font-family: var(--font-label);
+  font-size: 20rpx;
+  color: var(--secondary-fixed);
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.nav-link.active {
+  opacity: 1;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 16rpx;
+  text-decoration-color: var(--secondary-fixed);
+}
+
+/* ===== Search Section ===== */
+.search-section {
+  margin-top: 140rpx;
+  margin-bottom: var(--spacing-md);
+  padding: 0 var(--spacing-lg);
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--surface-container-highest);
+  backdrop-filter: blur(20rpx);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 1rpx solid var(--outline-variant);
+  box-shadow: var(--shadow-ambient);
+}
+
+.search-icon {
+  font-size: 40rpx;
+  color: var(--on-surface-variant);
+  margin-right: var(--spacing-sm);
 }
 
 .search-input {
   flex: 1;
   font-size: 28rpx;
-  padding: 18rpx 28rpx;
+  color: var(--on-surface);
   background: transparent;
-  border-radius: 40rpx;
-  color: var(--text-primary);
+  border: none;
+  padding: var(--spacing-sm) 0;
 }
 
 .search-input::placeholder {
-  color: var(--text-hint);
+  color: var(--on-surface-variant);
+  opacity: 0.6;
 }
 
-.search-btn {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-  color: #FFFFFF;
+.filter-btn {
+  background: transparent;
   border: none;
-  font-size: 28rpx;
-  padding: 18rpx 36rpx;
-  border-radius: 40rpx;
-  box-shadow: 0 4rpx 16rpx rgba(74, 93, 78, 0.25);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: var(--spacing-sm);
+  margin-left: var(--spacing-xs);
 }
 
-.search-btn:active {
-  transform: scale(0.96);
-  box-shadow: 0 2rpx 8rpx rgba(74, 93, 78, 0.2);
+.filter-icon {
+  font-size: 40rpx;
+  color: var(--primary);
 }
 
-/* ===== 分类筛选 - 胶囊标签 ===== */
-.category-filter {
-  display: flex;
-  gap: 12rpx;
-  margin-top: 24rpx;
-  overflow-x: auto;
-  padding: 8rpx 4rpx;
-  -webkit-overflow-scrolling: touch;
+/* ===== Category Section ===== */
+.category-section {
+  margin-bottom: var(--spacing-lg);
+  padding: 0 var(--spacing-lg);
+  overflow: hidden;
 }
 
-.category-filter::-webkit-scrollbar {
-  display: none;
+.category-scroll {
+  width: 100%;
+  white-space: nowrap;
 }
 
-.category-item {
-  flex-shrink: 0;
-  padding: 14rpx 28rpx;
-  background: var(--bg-card);
-  border-radius: 32rpx;
-  font-size: 26rpx;
-  color: var(--text-secondary);
-  border: 1rpx solid var(--border-color);
-  box-shadow: var(--shadow-soft);
+.category-list {
+  display: inline-flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
+}
+
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 20rpx 48rpx;
+  background: var(--surface-container);
+  border-radius: var(--radius-full);
+  font-family: var(--font-label);
+  font-size: 24rpx;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  box-shadow: var(--shadow-ambient);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
 }
 
-.category-item:active {
+.category-chip:active {
   transform: scale(0.96);
 }
 
-.category-item.active {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-  color: #FFFFFF;
-  border-color: var(--primary-color);
-  box-shadow: 0 4rpx 16rpx rgba(74, 93, 78, 0.3);
+.category-chip.active {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-fixed) 100%);
+  color: var(--on-secondary-fixed);
+  font-weight: 600;
+  box-shadow: 0 4rpx 16rpx rgba(110, 94, 0, 0.3);
 }
 
-/* ===== 物种列表 - 生命图鉴式卡片 ===== */
-.species-list {
+/* ===== Species Grid ===== */
+.species-grid {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
-  padding: 0 32rpx;
+  gap: var(--spacing-lg);
+  padding: 0 var(--spacing-lg);
 }
 
+/* ===== Species Card ===== */
 .species-card {
-  background: var(--bg-card);
-  border-radius: 28rpx;
-  padding: 40rpx 32rpx;
-  box-shadow: var(--shadow-soft);
-  border: 1rpx solid rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10rpx);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.species-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4rpx;
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-gold));
-  opacity: 0;
-  transition: opacity 0.3s;
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-ambient);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
 }
 
 .species-card:active {
-  transform: translateY(-4rpx);
+  transform: translateY(-8rpx);
   box-shadow: var(--shadow-elevated);
 }
 
-.species-card:active::before {
-  opacity: 1;
+/* Species Image - Circular Cutout */
+.species-image-wrapper {
+  position: relative;
+  flex-shrink: 0;
 }
 
-/* 本地物种 - 绿色边框 */
-.species-card.native {
-  border-left: 4rpx solid var(--primary-color);
-}
-
-/* 禁止放生 - 红色边框 */
-.species-card.forbidden {
-  border-left: 4rpx solid var(--error);
-  background: linear-gradient(135deg, rgba(168, 107, 107, 0.03) 0%, rgba(168, 107, 107, 0.06) 100%);
-}
-
-.species-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 24rpx;
-  gap: 20rpx;
-}
-
-.species-name {
-  font-size: 40rpx;
-  font-weight: 300;
-  color: var(--text-primary);
-  letter-spacing: 2rpx;
-  line-height: 1.3;
-}
-
-.species-scientific {
-  font-size: 24rpx;
-  color: var(--text-hint);
-  font-style: italic;
-  font-family: Georgia, 'Times New Roman', serif;
-  letter-spacing: 1rpx;
-}
-
-/* 物种插图区域 - 去底悬浮效果 */
-.species-illustration {
-  width: 160rpx;
-  height: 160rpx;
+.species-image {
+  width: 192rpx;
+  height: 192rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(74, 93, 78, 0.05) 0%, rgba(74, 93, 78, 0.1) 100%);
+  overflow: hidden;
+  border: 8rpx solid var(--surface-container-low);
+  box-shadow: inset 0 8rpx 24rpx rgba(74, 93, 78, 0.1);
+}
+
+.species-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s;
+}
+
+.species-card:active .species-img {
+  transform: scale(1.1);
+}
+
+/* Prohibited Badge */
+.prohibited-badge {
+  position: absolute;
+  bottom: -8rpx;
+  right: -8rpx;
+  background: var(--error);
+  border-radius: 50%;
+  width: 56rpx;
+  height: 56rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24rpx;
-  box-shadow: inset 0 4rpx 16rpx rgba(74, 93, 78, 0.1);
-  position: relative;
+  border: 4rpx solid var(--surface-container-lowest);
+  box-shadow: var(--shadow-ambient);
 }
 
-.species-illustration::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
-  pointer-events: none;
+.badge-icon {
+  font-size: 28rpx;
 }
 
-.species-icon {
-  font-size: 80rpx;
-  filter: drop-shadow(0 4rpx 12rpx rgba(74, 93, 78, 0.2));
-}
-
-.species-card-body {
+/* Card Content */
+.card-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
+  gap: var(--spacing-sm);
 }
 
-/* 标签系统 - 胶囊式 */
-.species-tags {
+/* Tags */
+.card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 12rpx;
+  gap: var(--spacing-xs);
 }
 
 .tag {
-  padding: 10rpx 20rpx;
-  border-radius: 24rpx;
-  font-size: 24rpx;
-  font-weight: 400;
-  letter-spacing: 1rpx;
   display: inline-flex;
   align-items: center;
-  gap: 6rpx;
+  padding: 8rpx 24rpx;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-label);
+  font-size: 20rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  text-transform: uppercase;
 }
 
 .tag-native {
-  background: linear-gradient(135deg, rgba(74, 93, 78, 0.08) 0%, rgba(74, 93, 78, 0.12) 100%);
-  color: var(--primary-color);
-  border: 1rpx solid rgba(74, 93, 78, 0.2);
+  background: var(--primary-fixed);
+  color: var(--on-primary-fixed-variant);
 }
 
-.tag-warning {
-  background: linear-gradient(135deg, rgba(168, 107, 107, 0.08) 0%, rgba(168, 107, 107, 0.12) 100%);
+.tag-prohibited {
+  background: var(--error-container);
   color: var(--error);
-  border: 1rpx solid rgba(168, 107, 107, 0.2);
 }
 
-.tag-category {
-  background: linear-gradient(135deg, rgba(201, 169, 97, 0.08) 0%, rgba(201, 169, 97, 0.12) 100%);
-  color: var(--accent-gold);
-  border: 1rpx solid rgba(201, 169, 97, 0.2);
+.tag-classification {
+  background: var(--primary-container);
+  color: var(--on-primary);
 }
 
-/* 栖息地信息 */
-.species-habitat {
-  font-size: 26rpx;
-  color: var(--text-secondary);
-  line-height: 1.8;
+/* Card Header */
+.card-header {
   display: flex;
-  align-items: flex-start;
-  gap: 8rpx;
-  padding: 20rpx;
-  background: var(--bg-secondary);
-  border-radius: 16rpx;
-  border-left: 3rpx solid var(--primary-color);
+  flex-direction: column;
+  gap: 4rpx;
 }
 
-/* 放生意义 - 禅意卡片 */
-.species-meaning {
-  margin-top: 20rpx;
-  padding: 28rpx;
-  background: linear-gradient(135deg, rgba(201, 169, 97, 0.05) 0%, rgba(201, 169, 97, 0.08) 100%);
-  border-radius: 20rpx;
-  border: 1rpx solid rgba(201, 169, 97, 0.15);
+.species-name-cn {
+  font-family: var(--font-headline);
+  font-size: 40rpx;
+  font-weight: 500;
+  color: var(--on-surface);
+  line-height: 1.3;
 }
 
-.meaning-title {
+.species-name-en {
+  font-family: var(--font-body);
   font-size: 24rpx;
-  color: var(--accent-gold);
-  font-weight: 400;
-  margin-bottom: 12rpx;
-  letter-spacing: 1rpx;
-}
-
-.meaning-text {
-  font-size: 26rpx;
-  color: var(--text-secondary);
-  line-height: 1.8;
   font-style: italic;
+  color: var(--on-surface-variant);
+  opacity: 0.7;
 }
 
-/* ===== 空状态 - 禅意留白 ===== */
+/* Species Description */
+.species-description {
+  font-family: var(--font-body);
+  font-size: 26rpx;
+  color: var(--on-surface-variant);
+  line-height: 1.8;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== Empty State ===== */
 .empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 120rpx 32rpx;
+  padding: 200rpx var(--spacing-lg);
   text-align: center;
 }
 
 .empty-icon {
   font-size: 120rpx;
-  margin-bottom: 32rpx;
+  margin-bottom: var(--spacing-lg);
   opacity: 0.3;
-  filter: grayscale(100%);
 }
 
 .empty-text {
-  font-size: 32rpx;
-  color: var(--text-hint);
-  font-weight: 300;
-  letter-spacing: 2rpx;
+  font-family: var(--font-headline);
+  font-size: 36rpx;
+  color: var(--on-surface-variant);
+  font-weight: 500;
 }
 
 .empty-subtext {
-  margin-top: 16rpx;
-  font-size: 26rpx;
-  color: var(--text-hint);
+  margin-top: var(--spacing-sm);
+  font-size: 28rpx;
+  color: var(--on-surface-variant);
   opacity: 0.7;
 }
 
-/* ===== 加载状态 - 呼吸效果 ===== */
-.loading {
+/* ===== Loading State ===== */
+.loading-state {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60rpx;
-  gap: 12rpx;
+  padding: 120rpx 0;
 }
 
-.loading dot {
-  width: 16rpx;
-  height: 16rpx;
+.loading-dots {
+  display: flex;
+  gap: 16rpx;
+}
+
+.dot {
+  width: 24rpx;
+  height: 24rpx;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--primary-container);
   animation: breathe 1.5s ease-in-out infinite;
 }
 
-.loading dot:nth-child(2) { animation-delay: 0.2s; }
-.loading dot:nth-child(3) { animation-delay: 0.4s; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes breathe {
-  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
   50% { opacity: 1; transform: scale(1.1); }
 }
 
-/* ===== 加载更多 - 淡入式 ===== */
-.load-more {
+/* ===== Information Prompt ===== */
+.info-prompt {
+  margin: var(--spacing-xl) var(--spacing-lg);
+  padding: var(--spacing-xl);
+  background: var(--surface-container);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  box-shadow: var(--shadow-ambient);
+}
+
+.prompt-icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: var(--primary-container);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48rpx 32rpx;
-  color: var(--text-secondary);
-  font-size: 28rpx;
-  font-weight: 300;
-  letter-spacing: 2rpx;
+  font-size: 48rpx;
+  flex-shrink: 0;
+}
+
+.prompt-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.prompt-title {
+  font-family: var(--font-headline);
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.prompt-text {
+  font-family: var(--font-body);
+  font-size: 24rpx;
+  color: var(--on-surface-variant);
+  line-height: 1.6;
+}
+
+.learn-more-btn {
+  background: transparent;
+  border: none;
+  padding: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-family: var(--font-label);
+  font-size: 24rpx;
+  font-weight: 600;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.arrow-icon {
+  font-size: 32rpx;
+  transition: transform 0.3s;
+}
+
+.learn-more-btn:active .arrow-icon {
+  transform: translateX(8rpx);
+}
+
+/* ===== Bottom Navigation Bar ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 140rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--surface);
+  backdrop-filter: blur(40rpx);
+  border-radius: 48rpx 48rpx 0 0;
+  box-shadow: var(--shadow-floated);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--on-surface-variant);
   opacity: 0.6;
-  transition: opacity 0.3s;
+  transition: all 0.4s;
 }
 
-.load-more:active {
+.nav-item:active {
+  transform: scale(0.95);
+}
+
+.nav-item.active {
   opacity: 1;
+  background: var(--surface-container);
+  border-radius: var(--radius-md);
 }
 
-/* ===== 容器 ===== */
-.container {
-  min-height: 100vh;
-  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-  padding-top: 24rpx;
-  padding-bottom: 48rpx;
+.nav-icon {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
 }
 
-/* ===== 动画效果 ===== */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40rpx);
+.nav-item.active .nav-icon {
+  font-variation-settings: 'FILL' 1;
+}
+
+.nav-label {
+  font-family: var(--font-label);
+  font-size: 20rpx;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .species-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .card-tags {
+    justify-content: center;
+  }
+  
+  .card-header {
+    align-items: center;
   }
 }
-
-.animate-slide-in {
-  animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.animate-delay-1 { animation-delay: 0.05s; }
-.animate-delay-2 { animation-delay: 0.1s; }
-.animate-delay-3 { animation-delay: 0.15s; }
-.animate-delay-4 { animation-delay: 0.2s; }
-.animate-delay-5 { animation-delay: 0.25s; }
