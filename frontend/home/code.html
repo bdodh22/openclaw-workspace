@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>生灵守护 - 科学放生</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "outline": "#737872",
+              "secondary": "#6e5e00",
+              "on-primary-fixed-variant": "#394b3d",
+              "secondary-container": "#fee264",
+              "secondary-fixed-dim": "#e0c64b",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e3e2de",
+              "surface-container-high": "#e9e8e3",
+              "on-secondary-container": "#756400",
+              "on-surface": "#1b1c19",
+              "on-secondary-fixed": "#211b00",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#594325",
+              "inverse-on-surface": "#f2f1ec",
+              "primary": "#334537",
+              "on-surface-variant": "#434843",
+              "tertiary-fixed": "#ffddb6",
+              "on-tertiary-fixed": "#291801",
+              "primary-fixed": "#d3e8d5",
+              "surface-dim": "#dbdad5",
+              "surface-variant": "#e3e2de",
+              "tertiary-fixed-dim": "#e2c19b",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f5f4ef",
+              "tertiary": "#533d20",
+              "secondary-fixed": "#fee264",
+              "on-secondary-fixed-variant": "#534600",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#6d5435",
+              "surface-container": "#efeee9",
+              "primary-container": "#4a5d4e",
+              "primary-fixed-dim": "#b7ccb9",
+              "on-tertiary-container": "#ebcaa3",
+              "on-background": "#1b1c19",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#0e1f13",
+              "background": "#faf9f4",
+              "surface": "#faf9f4",
+              "inverse-primary": "#b7ccb9",
+              "surface-bright": "#faf9f4",
+              "on-primary-container": "#c0d5c2",
+              "error-container": "#ffdad6",
+              "surface-tint": "#506354",
+              "outline-variant": "#c3c8c1",
+              "surface-container-lowest": "#ffffff",
+              "inverse-surface": "#30312e"
+            },
+            fontFamily: {
+              "noto-serif": ["Noto Serif SC", "serif"],
+              "plus-jakarta": ["Plus Jakarta Sans", "sans-serif"],
+              "headline": ["Noto Serif SC", "serif"],
+              "body": ["Plus Jakarta Sans", "sans-serif"],
+              "label": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #faf9f4; color: #1b1c19; }
+        .font-noto-serif { font-family: 'Noto Serif SC', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .gold-foil-text { background: linear-gradient(135deg, #6e5e00 0%, #fee264 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gold-foil-bg { background: linear-gradient(135deg, #6e5e00 0%, #fee264 100%); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#4A5D4E] dark:bg-[#1B241D]/90 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#FEE264]" data-icon="eco">eco</span>
+<h1 class="font-noto-serif text-[#FEE264] text-xl font-bold tracking-widest">生灵守护</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#FEE264]/80 hover:opacity-80 transition-opacity duration-400" data-icon="search">search</button>
+<button class="material-symbols-outlined text-[#FEE264]/80 hover:opacity-80 transition-opacity duration-400" data-icon="notifications">notifications</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-10">
+<!-- Daily Wisdom Section -->
+<section class="relative overflow-hidden p-8 rounded-[32px] bg-surface-container shadow-[inset_0_0_40px_rgba(0,0,0,0.02)]">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl" data-icon="format_quote">format_quote</span>
+</div>
+<div class="relative z-10">
+<p class="font-plus-jakarta text-xs tracking-[0.2em] text-primary/60 mb-4 uppercase">Daily Wisdom • 每日一禅</p>
+<div class="font-noto-serif text-2xl leading-relaxed text-on-surface/90 font-medium italic min-h-[5rem]">
+                    「 万物并育而不相害，道并行而不相悖。科学放生，是智者的慈悲。 」
+                </div>
+<div class="mt-6 flex items-center justify-between border-t border-outline-variant/10 pt-4">
+<span class="text-xs font-plus-jakarta text-primary/40 tracking-wider">甲辰年 腊月廿三</span>
+<button class="flex items-center gap-2 text-primary font-medium text-sm group">
+<span>分享智慧</span>
+<span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<section class="grid grid-cols-2 gap-4">
+<!-- Species Query (Large) -->
+<div class="col-span-2 relative overflow-hidden h-64 rounded-[32px] bg-primary-container text-on-primary-container p-8 flex flex-col justify-end group cursor-pointer transition-transform duration-400 hover:scale-[0.98]">
+<img alt="Close-up of a graceful white egret" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay group-hover:scale-110 transition-transform duration-700" data-alt="Close-up of a graceful white egret standing in serene water with soft ethereal lighting and morning mist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJyi1bN0hnRT-9WeHFQfQaevo-TV7RH4KWSSg6nXR8W5_Y-5hPuIHdUbm2Y4DTnCHIkK6o2bUS_e0CM4EaOCwAHTiBoq6t4g_7VQcIcteN5Nk8UH_9HOljNH8sCUNNPSgQKfrdlrH4A3vKcghDAks34MJALyhSdKu7hGtIYLjp_b4IQzolM94IwKjziRxXttPugXfLCqXt0iOzLNEigRBsgO_uV6lVCZGVk-xLE-QbBzsKHX-JWexeOVIT3X-Nzg3-FXNcr7AGDair"/>
+<div class="relative z-10">
+<h3 class="font-noto-serif text-3xl font-bold mb-2">物种查询</h3>
+<p class="text-on-primary-container/80 text-sm max-w-[200px] leading-relaxed">科学辨识适放物种，守护生态平衡之美。</p>
+</div>
+<div class="absolute top-8 right-8 bg-white/10 backdrop-blur-md p-3 rounded-full">
+<span class="material-symbols-outlined text-2xl" data-icon="biotech">biotech</span>
+</div>
+</div>
+<!-- Prayer Certificate (Medium with Gold Highlights) -->
+<div class="relative overflow-hidden h-48 rounded-[32px] bg-surface-container-lowest p-6 flex flex-col justify-between group cursor-pointer border border-secondary/10 transition-all duration-400 hover:shadow-xl hover:shadow-secondary/5">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold">NEW</span>
+</div>
+<div>
+<h3 class="font-noto-serif text-lg font-bold text-on-surface mb-1">功德证书</h3>
+<p class="text-[11px] text-on-surface-variant font-medium gold-foil-text font-plus-jakarta uppercase tracking-wider">Honorary Award</p>
+</div>
+</div>
+<!-- Buddhist Calendar (Medium) -->
+<div class="relative overflow-hidden h-48 rounded-[32px] bg-surface-container-high p-6 flex flex-col justify-between group cursor-pointer transition-all duration-400 hover:bg-surface-container-highest">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary/60 text-3xl" data-icon="calendar_month">calendar_month</span>
+</div>
+<div>
+<h3 class="font-noto-serif text-lg font-bold text-on-surface mb-1">佛历吉日</h3>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+<p class="text-[11px] text-on-surface-variant font-medium">今日宜：戒杀、放生</p>
+</div>
+</div>
+</div>
+<!-- Merit Ranking (Medium) -->
+<div class="col-span-2 relative overflow-hidden h-32 rounded-[32px] bg-[#EFEEE9] p-6 flex items-center justify-between group cursor-pointer transition-all duration-400 hover:scale-[0.99]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="leaderboard" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+</div>
+<div>
+<h3 class="font-noto-serif text-lg font-bold text-on-surface">功德榜单</h3>
+<p class="text-xs text-on-surface-variant">已有 12,840 位同修参与科学放生</p>
+</div>
+</div>
+<div class="flex -space-x-3">
+<img alt="User 1" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="portrait of a calm man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgAP66hhMXC9WiIJHi5-hsBrQEF0mpns1WfLPhmWJ5uf7dFl--R2z5kCrJGHpuueXBv7EviLDBpcVIangbnwoNKe4UPz1WHgibSG64o4fmyuO9INqPAcJUsIo8gnp2otPhuZccJf9nKAEXailhRnWmFEx_uc1DqKsLeOfkMFgcfatXsEMCxdzbWXPPsUfKMDdgbtUljYQzmSU0GSCwbW9j9onrXP2FYO4XwNip2o8WdAzCtMuEFxDQGSt3lHVBfeu5knqh7GLNJs3D"/>
+<img alt="User 2" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="portrait of a smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7_nlR1uY7bslm5YuFuMJyxnFkXVJv9v83ewRjAC3Zo1Hluwtz7jEXgJTV4NzSBMpNsflEuPT1cMCbvjHs_BmMIsLh2LEJOGFy7Yu1VQ_hcvcwON4Z1ceIs1Wyf0D-hebCRmGdeAyiERDFxpmzPao9iDazXj7MB9ejtIWBKLsIpfeprYcYy9qt_Cm4WBxkkGSjP7I-xvXS9hRiLPTn-s78bd3r7AJi0xUSEgJndPzMCbqKWDRzyYf-rb13Ca9UyksjrYiFsj5TH84p"/>
+<img alt="User 3" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="portrait of a focused student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbCxkZkbQ2WfqXuT8lTQzAux3EXC2rk0WciQdY87eplAcS3yg1zblfRgv6BWnrDCIcZtenTe0XTcR7eXOGiU047uzEYzdQn7x-zwbrfS4TzoE-g48dV0Fl1qctp2DTKziaKSd-Uzlf6O3bSjn-0aeeIO2IDzTiyVz4DaE6nKwNKtNYxECPQq_slt8Eq4sTtHXc7yRLCWruEXk429bjWJvi2EMty51zVjtfz7YvRWy2DZJRJpx6E5nJhX0eeHQ1u5i06G1cuqdpGUbX"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center text-[10px] font-bold text-primary">+99</div>
+</div>
+</div>
+</section>
+<!-- News Scrolling Banner -->
+<section class="bg-surface-container-low rounded-2xl p-4 flex items-center gap-4 overflow-hidden">
+<div class="flex-shrink-0 flex items-center gap-2 text-primary font-bold text-xs border-r border-outline-variant pr-4">
+<span class="material-symbols-outlined text-sm" data-icon="campaign">campaign</span>
+<span class="font-noto-serif">公告</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<div class="flex flex-col animate-marquee space-y-2">
+<p class="text-xs text-on-surface-variant truncate">关于规范春季科学放生行为的指导意见...</p>
+</div>
+</div>
+<button class="material-symbols-outlined text-primary/40 text-sm" data-icon="chevron_right">chevron_right</button>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe-area h-20 bg-[#FAF9F4]/80 dark:bg-[#1B1C19]/90 backdrop-blur-2xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)] rounded-t-[24px]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E] dark:text-[#FEE264] bg-[#EFEEE9] dark:bg-[#4A5D4E]/30 rounded-2xl px-3 py-1.5 transition-transform duration-400 ease-in-out scale-95" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home_mini" style="font-variation-settings: 'FILL' 1;">home_mini</span>
+<span class="font-plus-jakarta text-[9px] font-medium leading-tight">首页 Home</span>
+</a>
+<!-- Species -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E]/60 dark:text-[#EFEED9]/50 px-3 py-1.5 hover:bg-[#EFEEE9] dark:hover:bg-[#4A5D4E]/20 transition-colors duration-400" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="analytics">analytics</span>
+<span class="font-plus-jakarta text-[9px] font-medium leading-tight">物种 Species</span>
+</a>
+<!-- Awards -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E]/60 dark:text-[#EFEED9]/50 px-3 py-1.5 hover:bg-[#EFEEE9] dark:hover:bg-[#4A5D4E]/20 transition-colors duration-400" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="workspace_premium">workspace_premium</span>
+<span class="font-plus-jakarta text-[9px] font-medium leading-tight">证书 Awards</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E]/60 dark:text-[#EFEED9]/50 px-3 py-1.5 hover:bg-[#EFEEE9] dark:hover:bg-[#4A5D4E]/20 transition-colors duration-400" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person_2">person_2</span>
+<span class="font-plus-jakarta text-[9px] font-medium leading-tight">我的 Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - Suppression Logic Checked: Keeping for Home screen as per instructions -->
+<button class="fixed right-6 bottom-28 w-14 h-14 rounded-full bg-primary text-on-primary shadow-lg flex items-center justify-center transition-transform hover:scale-110 active:scale-90 z-40">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .font-noto-serif { font-family: 'Noto Serif SC', serif; }
+        .font-plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gold-foil-text {
+            background: linear-gradient(135deg, #6e5e00 0%, #fee264 50%, #6e5e00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 1px 1px rgba(254, 226, 100, 0.2));
+        }
+        .gold-border {
+            border: 2px solid;
+            border-image: linear-gradient(135deg, #6e5e00, #fee264, #6e5e00) 1;
+        }
+        .ink-wash-bg {
+            background-image: radial-gradient(circle at 20% 30%, rgba(74, 93, 78, 0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 70%, rgba(110, 94, 0, 0.03) 0%, transparent 40%);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "outline": "#737872",
+              "secondary": "#6e5e00",
+              "on-primary-fixed-variant": "#394b3d",
+              "secondary-container": "#fee264",
+              "secondary-fixed-dim": "#e0c64b",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e3e2de",
+              "surface-container-high": "#e9e8e3",
+              "on-secondary-container": "#756400",
+              "on-surface": "#1b1c19",
+              "on-secondary-fixed": "#211b00",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#594325",
+              "inverse-on-surface": "#f2f1ec",
+              "primary": "#334537",
+              "on-surface-variant": "#434843",
+              "tertiary-fixed": "#ffddb6",
+              "on-tertiary-fixed": "#291801",
+              "primary-fixed": "#d3e8d5",
+              "surface-dim": "#dbdad5",
+              "surface-variant": "#e3e2de",
+              "tertiary-fixed-dim": "#e2c19b",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f5f4ef",
+              "tertiary": "#533d20",
+              "secondary-fixed": "#fee264",
+              "on-secondary-fixed-variant": "#534600",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#6d5435",
+              "surface-container": "#efeee9",
+              "primary-container": "#4a5d4e",
+              "primary-fixed-dim": "#b7ccb9",
+              "on-tertiary-container": "#ebcaa3",
+              "on-background": "#1b1c19",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#0e1f13",
+              "background": "#faf9f4",
+              "surface": "#faf9f4",
+              "inverse-primary": "#b7ccb9",
+              "surface-bright": "#faf9f4",
+              "on-primary-container": "#c0d5c2",
+              "error-container": "#ffdad6",
+              "surface-tint": "#506354",
+              "outline-variant": "#c3c8c1",
+              "surface-container-lowest": "#ffffff",
+              "inverse-surface": "#30312e"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif SC"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container min-h-screen flex flex-col">
+<!-- Top Navigation Anchor (Shared Component) -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#4A5D4E] dark:bg-[#1B241D]/90 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#FEE264]" data-icon="eco">eco</span>
+<span class="font-noto-serif text-[#FEE264] text-xl font-bold tracking-widest">生灵守护</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#FEE264]/80 hover:opacity-80 transition-opacity duration-400 cursor-pointer" data-icon="close">close</span>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 pt-24 pb-32 px-6 ink-wash-bg relative overflow-hidden">
+<!-- Decoration: Subtle Lotus Petals -->
+<div class="absolute top-20 right-[-20px] opacity-10 pointer-events-none transform rotate-12">
+<span class="material-symbols-outlined text-8xl" data-icon="local_florist">local_florist</span>
+</div>
+<div class="absolute bottom-40 left-[-30px] opacity-10 pointer-events-none transform -rotate-12">
+<span class="material-symbols-outlined text-9xl" data-icon="water_drop">water_drop</span>
+</div>
+<div class="max-w-md mx-auto space-y-8">
+<!-- Header Text -->
+<div class="text-center space-y-2">
+<h1 class="font-headline text-2xl font-semibold text-primary">功德圆满</h1>
+<p class="font-label text-sm text-on-surface-variant tracking-wide uppercase">Spirit Blessing Confirmed</p>
+</div>
+<!-- Certificate Preview Area -->
+<div class="relative group transition-all duration-400 ease-in-out">
+<!-- Certificate Card -->
+<div class="relative bg-primary-container p-1 shadow-2xl rounded-sm overflow-hidden">
+<!-- Gold Gradient Border Wrapper -->
+<div class="border-[6px] border-double border-secondary-fixed/40 p-6 h-full flex flex-col items-center bg-primary relative">
+<!-- Watermark Background -->
+<div class="absolute inset-0 opacity-5 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-[20rem]" data-icon="waves">waves</span>
+</div>
+<!-- Certificate Header -->
+<div class="text-center mb-10 z-10">
+<h2 class="gold-foil-text font-headline text-3xl font-bold tracking-widest py-2">放生祈福证书</h2>
+<div class="h-px w-32 bg-gradient-to-r from-transparent via-secondary-fixed/50 to-transparent mx-auto mt-2"></div>
+</div>
+<!-- Content Body -->
+<div class="w-full space-y-6 font-headline text-on-primary-container leading-loose z-10">
+<p class="text-lg">
+<span class="text-secondary-fixed font-bold border-b border-secondary-fixed/30 pb-1">李慕华</span>
+<span>大德：</span>
+</p>
+<p class="text-base indent-8">
+                                欣逢吉祥之日，阁下于 
+                                <span class="text-secondary-fixed">2023年10月24日</span> 
+                                在 
+                                <span class="text-secondary-fixed">西溪国家湿地公园</span> 
+                                科学放生 
+                                <span class="text-secondary-fixed font-semibold">中华草龟</span>
+                                壹只。
+                            </p>
+<p class="text-center italic text-secondary-fixed-dim text-lg pt-4">
+                                “愿诸众生，永离众苦，常受安乐。”
+                            </p>
+</div>
+<!-- Bottom Metadata Grid -->
+<div class="w-full mt-12 grid grid-cols-2 gap-4 border-t border-on-primary-container/10 pt-6 z-10">
+<div class="space-y-1">
+<p class="font-label text-[10px] text-on-primary-container/60 tracking-wider">功德编号 MERIT NO.</p>
+<p class="font-plus-jakarta text-secondary-fixed font-bold tracking-tighter">G001284</p>
+</div>
+<div class="space-y-1 text-right">
+<p class="font-label text-[10px] text-on-primary-container/60 tracking-wider">福报值 BLESSING</p>
+<p class="font-plus-jakarta text-secondary-fixed font-bold tracking-tighter">+880 BP</p>
+</div>
+</div>
+<!-- Traditional Red Stamp -->
+<div class="absolute bottom-8 right-8 transform rotate-[-12deg] z-20">
+<div class="w-16 h-16 border-4 border-error/70 rounded-md flex items-center justify-center p-1 opacity-80 mix-blend-screen">
+<span class="text-error/90 font-headline font-bold text-[10px] text-center leading-none">
+                                    科学放生<br/>功德委员会<br/>印
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons Group -->
+<div class="grid grid-cols-2 gap-4 pt-4">
+<button class="flex items-center justify-center gap-2 bg-surface-container-highest text-on-surface py-4 px-6 rounded-xl font-label font-semibold hover:bg-surface-container-high transition-colors duration-400">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+                    保存到相册
+                </button>
+<button class="flex items-center justify-center gap-2 bg-primary-container text-on-primary-container py-4 px-6 rounded-xl font-label font-semibold hover:opacity-90 transition-opacity duration-400 shadow-lg">
+<span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+                    转发给好友
+                </button>
+</div>
+<p class="text-center font-label text-[10px] text-on-surface-variant/60 tracking-widest pb-8">
+                每一个细微的善举，都在改变世界的呼吸
+            </p>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe-area h-20 backdrop-blur-2xl bg-[#FAF9F4]/80 dark:bg-[#1B1C19]/90 rounded-t-[24px] shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E]/60 dark:text-[#EFEED9]/50 px-3 py-1.5 hover:bg-[#EFEEE9] dark:hover:bg-[#4A5D4E]/20 transition-colors duration-400" href="#">
+<span class="material-symbols-outlined" data-icon="home_mini">home_mini</span>
+<span class="font-plus-jakarta text-[9px] font-medium leading-tight mt-1">首页 Home</span>
+</a>
+<!-- Species -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E]/60 dark:text-[#EFEED9]/50 px-3 py-1.5 hover:bg-[#EFEEE9] dark:hover:bg-[#4A5D4E]/20 transition-colors duration-400" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-plus-jakarta text-[9px] font-medium leading-tight mt-1">物种 Species</span>
+</a>
+<!-- Awards - ACTIVE -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E] dark:text-[#FEE264] bg-[#EFEEE9] dark:bg-[#4A5D4E]/30 rounded-2xl px-3 py-1.5 scale-95 transition-transform duration-400 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-plus-jakarta text-[9px] font-bold leading-tight mt-1">证书 Awards</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#4A5D4E]/60 dark:text-[#EFEED9]/50 px-3 py-1.5 hover:bg-[#EFEEE9] dark:hover:bg-[#4A5D4E]/20 transition-colors duration-400" href="#">
+<span class="material-symbols-outlined" data-icon="person_2">person_2</span>
+<span class="font-plus-jakarta text-[9px] font-medium leading-tight mt-1">我的 Profile</span>
+</a>
+</nav>
+<!-- Visual Polish: Content Overlay for Depth -->
+<div class="fixed inset-0 pointer-events-none z-[60] border-[16px] border-surface/5"></div>
+</body></html>
