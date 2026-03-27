@@ -1,85 +1,126 @@
-<!--pages/index/index.wxml - Modern Zen Design-->
+<!--pages/index/index.wxml - Stitch Design: Bento Grid 布局-->
 <view class="container">
-  <!-- 沉浸式首屏 - 动态背景 -->
-  <view class="banner">
-    <view class="banner-content animate-fade-in">
-      <text class="banner-title">科学放生</text>
-      <text class="banner-subtitle">如法祈福 · 保护生态</text>
-      
-      <!-- 禅语打字机效果 -->
-      <view class="zen-quote">
-        <text class="zen-text">{{dailyWisdom}}</text>
-      </view>
-      
-      <!-- 核心按钮 - 立即放生 -->
-      <button class="btn-release" bindtap="goToSpecies">立即放生</button>
+  <!-- Top Navigation -->
+  <view class="top-nav">
+    <view class="nav-brand">
+      <text class="brand-icon">🌿</text>
+      <text class="brand-title">生灵守护</text>
+    </view>
+    <view class="nav-actions">
+      <text class="action-icon">🔍</text>
+      <text class="action-icon">🔔</text>
     </view>
   </view>
 
-  <!-- Bento Grid 功能布局 -->
-  <view class="bento-grid">
-    <!-- 大卡片 - 功德榜 -->
-    <view class="bento-card large gold animate-fade-in animate-delay-1" bindtap="goToRanking">
-      <view class="bento-icon">🏆</view>
-      <view class="bento-title">功德榜</view>
-      <view class="bento-subtitle">查看排名 · 积累福报</view>
-    </view>
-    
-    <!-- 物种查询 -->
-    <view class="bento-card animate-fade-in animate-delay-2" bindtap="goToSpecies">
-      <view class="bento-icon">🐟</view>
-      <view class="bento-title">物种查询</view>
-      <view class="bento-subtitle">如法选择</view>
-    </view>
-    
-    <!-- 生成祈福 -->
-    <view class="bento-card animate-fade-in animate-delay-3" bindtap="goToCertificate">
-      <view class="bento-icon">📿</view>
-      <view class="bento-title">生成祈福</view>
-      <view class="bento-subtitle">电子证书</view>
-    </view>
-    
-    <!-- 斋日查询 -->
-    <view class="bento-card animate-fade-in animate-delay-4" bindtap="goToCalendar">
-      <view class="bento-icon">📅</view>
-      <view class="bento-title">斋日查询</view>
-      <view class="bento-subtitle">吉祥日子</view>
-    </view>
-    
-    <!-- 我的功德 -->
-    <view class="bento-card animate-fade-in animate-delay-4" bindtap="goToProfile">
-      <view class="bento-icon">🙏</view>
-      <view class="bento-title">我的功德</view>
-      <view class="bento-subtitle">个人记录</view>
-    </view>
-  </view>
-
-  <!-- 每日智慧 - 禅意卡片 -->
-  <view class="wisdom-section animate-fade-in">
-    <view class="wisdom-content">
-      <text class="wisdom-text">{{dailyWisdom}}</text>
-      <text class="wisdom-source" wx:if="{{wisdomSource}}">—— {{wisdomSource}}</text>
-    </view>
-  </view>
-
-  <!-- 重要提醒 - 简约风格 -->
-  <view class="notice-section animate-fade-in">
-    <view class="section-title">重要提醒</view>
-    <view class="notice-list">
-      <view class="notice-item">
-        <view class="notice-icon">⚠️</view>
-        <view>
-          <text class="notice-text">请勿放生外来物种，违法可能面临罚款</text>
-          <text class="notice-time">法律法规</text>
+  <!-- Main Content -->
+  <view class="main-content">
+    <!-- Daily Wisdom Section -->
+    <view class="wisdom-section">
+      <view class="wisdom-card">
+        <text class="wisdom-quote-icon">❝</text>
+        <text class="wisdom-label">Daily Wisdom · 每日一禅</text>
+        <text class="wisdom-text">「万物并育而不相害，道并行而不相悖。科学放生，是智者的慈悲。」</text>
+        <view class="wisdom-footer">
+          <text class="wisdom-date">{{currentDate}}</text>
+          <view class="share-btn" bindtap="shareWisdom">
+            <text>分享智慧</text>
+            <text class="arrow-icon">→</text>
+          </view>
         </view>
       </view>
-      <view class="notice-item">
-        <view class="notice-icon">✅</view>
-        <view>
-          <text class="notice-text">选择本地物种，科学放生才能真正积福</text>
-          <text class="notice-time">生态友好</text>
+    </view>
+
+    <!-- Bento Grid Layout -->
+    <view class="bento-grid">
+      <!-- Species Query (Large) -->
+      <view class="bento-card bento-large species-card" bindtap="goToSpecies">
+        <image class="card-bg-image" src="/images/home/egret.png" mode="aspectFill" />
+        <view class="card-overlay"></view>
+        <view class="card-content">
+          <text class="card-title">物种查询</text>
+          <text class="card-desc">科学辨识适放物种，守护生态平衡之美。</text>
+        </view>
+        <view class="card-icon">
+          <text class="icon">🔬</text>
         </view>
       </view>
+
+      <!-- Prayer Certificate (Medium with Gold) -->
+      <view class="bento-card certificate-card" bindtap="goToCertificate">
+        <view class="card-top">
+          <text class="card-icon-gold">🏆</text>
+          <view class="new-badge">NEW</view>
+        </view>
+        <view class="card-bottom">
+          <text class="card-title-sm">功德证书</text>
+          <text class="card-subtitle gold-foil-text">Honorary Award</text>
+        </view>
+      </view>
+
+      <!-- Buddhist Calendar (Medium) -->
+      <view class="bento-card calendar-card" bindtap="goToCalendar">
+        <view class="card-top">
+          <text class="card-icon-outline">📅</text>
+        </view>
+        <view class="card-bottom">
+          <text class="card-title-sm">佛历吉日</text>
+          <view class="calendar-indicator">
+            <view class="indicator-dot"></view>
+            <text class="indicator-text">今日宜：戒杀、放生</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- Merit Ranking (Medium) -->
+      <view class="bento-card bento-large ranking-card" bindtap="goToRanking">
+        <view class="ranking-content">
+          <view class="ranking-left">
+            <view class="ranking-icon">📊</view>
+            <view class="ranking-info">
+              <text class="card-title-sm">功德榜单</text>
+              <text class="ranking-count">已有 12,840 位同修参与科学放生</text>
+            </view>
+          </view>
+          <view class="ranking-avatars">
+            <image class="avatar" src="/images/avatars/user1.png" />
+            <image class="avatar" src="/images/avatars/user2.png" />
+            <image class="avatar" src="/images/avatars/user3.png" />
+            <view class="avatar-more">+99</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- News Banner -->
+    <view class="news-banner">
+      <view class="news-label">
+        <text class="news-icon">📢</text>
+        <text>公告</text>
+      </view>
+      <view class="news-content">
+        <text class="news-text">关于规范春季科学放生行为的指导意见...</text>
+      </view>
+      <text class="news-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Bottom Navigation -->
+  <view class="bottom-nav">
+    <view class="nav-item active" bindtap="goToIndex">
+      <text class="nav-icon">🏠</text>
+      <text class="nav-label">首页</text>
+    </view>
+    <view class="nav-item" bindtap="goToSpecies">
+      <text class="nav-icon">🐟</text>
+      <text class="nav-label">物种</text>
+    </view>
+    <view class="nav-item" bindtap="goToCertificate">
+      <text class="nav-icon">🏆</text>
+      <text class="nav-label">证书</text>
+    </view>
+    <view class="nav-item" bindtap="goToProfile">
+      <text class="nav-icon">👤</text>
+      <text class="nav-label">我的</text>
     </view>
   </view>
 </view>
