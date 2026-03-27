@@ -1,68 +1,122 @@
-<!--pages/profile/profile.wxml-->
+<!--pages/profile/profile.wxml - Stitch Design: 极简个人中心-->
 <view class="container">
-  <!-- User Info Card -->
-  <view class="user-card card">
-    <view class="user-info">
-      <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
-      <view class="user-details">
-        <text class="nickname">{{userInfo.nickname || '点击登录'}}</text>
-        <text class="user-id">ID: {{userInfo.id || '-'}}</text>
+  <!-- Top Navigation -->
+  <view class="top-nav">
+    <view class="nav-brand">
+      <text class="brand-icon">🌿</text>
+      <text class="brand-title">生灵守护</text>
+    </view>
+    <view class="nav-actions">
+      <text class="action-icon">🔔</text>
+      <text class="action-icon">⚙</text>
+    </view>
+  </view>
+
+  <!-- Main Content -->
+  <view class="main-content">
+    <!-- Profile Header -->
+    <view class="profile-header">
+      <view class="avatar-wrapper">
+        <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+        <view class="verified-badge">✓</view>
+      </view>
+      <view class="user-info">
+        <text class="user-name">{{userInfo.nickname || '林深见鹿'}}</text>
+        <view class="user-level">
+          <text class="level-icon">✨</text>
+          <text class="level-text">功德等级：妙觉众生 (LV.7)</text>
+        </view>
       </view>
     </view>
-    <button class="login-btn" wx:if="{{!isLoggedIn}}" bindtap="login">
-      微信登录
-    </button>
+
+    <!-- Stats Bento Grid -->
+    <view class="stats-grid">
+      <view class="stat-card">
+        <text class="stat-value">{{userInfo.totalDays || 128}}</text>
+        <text class="stat-label">护佑天数</text>
+      </view>
+      <view class="stat-card highlight">
+        <text class="stat-value">{{userInfo.totalReleases || 42}}</text>
+        <text class="stat-label">科学放生</text>
+      </view>
+    </view>
+
+    <!-- Functional Menu -->
+    <view class="menu-list">
+      <!-- My Certificates -->
+      <view class="menu-item" bindtap="goToCertificates">
+        <view class="menu-left">
+          <view class="menu-icon primary">🏆</view>
+          <view class="menu-info">
+            <text class="menu-title">我的证书</text>
+            <text class="menu-subtitle">My Certificates</text>
+          </view>
+        </view>
+        <view class="menu-right">
+          <view class="badge">{{userInfo.certificateCount || 12}}</view>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+
+      <!-- My Collections -->
+      <view class="menu-item" bindtap="goToFavorites">
+        <view class="menu-left">
+          <view class="menu-icon tertiary">📖</view>
+          <view class="menu-info">
+            <text class="menu-title">收藏图鉴</text>
+            <text class="menu-subtitle">My Collections</text>
+          </view>
+        </view>
+        <text class="arrow">›</text>
+      </view>
+
+      <!-- Bottom Grid Duo -->
+      <view class="menu-grid-duo">
+        <!-- Feedback -->
+        <view class="menu-card" bindtap="showFeedback">
+          <view class="card-icon outline">💬</view>
+          <text class="card-title">反馈建议</text>
+          <text class="card-subtitle">Feedback</text>
+        </view>
+
+        <!-- About -->
+        <view class="menu-card" bindtap="showAbout">
+          <view class="card-icon outline">ℹ</view>
+          <text class="card-title">关于守护</text>
+          <text class="card-subtitle">About Us</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Login Button (Alternative State) -->
+    <view class="login-section" wx:if="{{!isLoggedIn}}">
+      <button class="login-btn" bindtap="login">切换账号 / 登录</button>
+      <text class="version-text">Scientific Animal Release Program v2.4.0</text>
+    </view>
+
+    <!-- Version Text -->
+    <view class="version-section" wx:else>
+      <text class="version-text">Scientific Animal Release Program v2.4.0</text>
+    </view>
   </view>
 
-  <!-- Stats Card -->
-  <view class="stats-card card">
-    <view class="stat-item">
-      <text class="stat-value">{{userInfo.totalReleases || 0}}</text>
-      <text class="stat-label">放生次数</text>
+  <!-- Bottom Navigation -->
+  <view class="bottom-nav">
+    <view class="nav-item" bindtap="goToIndex">
+      <text class="nav-icon">🏠</text>
+      <text class="nav-label">首页</text>
     </view>
-    <view class="stat-divider"></view>
-    <view class="stat-item">
-      <text class="stat-value">{{userInfo.totalMerit || 0}}</text>
-      <text class="stat-label">福报积分</text>
+    <view class="nav-item" bindtap="goToSpecies">
+      <text class="nav-icon">🐟</text>
+      <text class="nav-label">物种</text>
     </view>
-  </view>
-
-  <!-- Menu List -->
-  <view class="menu-section card">
-    <view class="menu-item" bindtap="goToCertificates">
-      <text class="menu-icon">📿</text>
-      <text class="menu-text">我的祈福</text>
-      <text class="menu-arrow">›</text>
+    <view class="nav-item" bindtap="goToCertificate">
+      <text class="nav-icon">🏆</text>
+      <text class="nav-label">证书</text>
     </view>
-    <view class="menu-item" bindtap="goToFavorites">
-      <text class="menu-icon">⭐</text>
-      <text class="menu-text">收藏物种</text>
-      <text class="menu-arrow">›</text>
+    <view class="nav-item active">
+      <text class="nav-icon">👤</text>
+      <text class="nav-label">我的</text>
     </view>
-    <view class="menu-item" bindtap="goToSettings">
-      <text class="menu-icon">⚙️</text>
-      <text class="menu-text">设置</text>
-      <text class="menu-arrow">›</text>
-    </view>
-  </view>
-
-  <!-- About Section -->
-  <view class="about-section card">
-    <view class="menu-item" bindtap="showAbout">
-      <text class="menu-icon">ℹ️</text>
-      <text class="menu-text">关于我们</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-item" bindtap="showFeedback">
-      <text class="menu-icon">💬</text>
-      <text class="menu-text">意见反馈</text>
-      <text class="menu-arrow">›</text>
-    </view>
-  </view>
-
-  <!-- Version Info -->
-  <view class="version-info">
-    <text class="version-text">科学放生小程序 v1.0.0</text>
-    <text class="version-text">科学放生 · 如法祈福 · 保护生态</text>
   </view>
 </view>

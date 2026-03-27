@@ -1,14 +1,14 @@
-// pages/profile/profile.js
+// pages/profile/profile.js - Stitch Design: 极简个人中心
 const app = getApp();
 
 Page({
   data: {
     userInfo: {
-      id: null,
       nickname: '',
       avatarUrl: '',
+      totalDays: 0,
       totalReleases: 0,
-      totalMerit: 0
+      certificateCount: 0
     },
     isLoggedIn: false
   },
@@ -23,6 +23,9 @@ Page({
     }
   },
 
+  /**
+   * 检查登录状态
+   */
   checkLoginStatus() {
     const userInfo = app.globalData.userInfo;
     const isLoggedIn = app.globalData.isLoggedIn;
@@ -35,41 +38,34 @@ Page({
     }
   },
 
-  async loadUserInfo() {
+  /**
+   * 加载用户信息
+   */
+  loadUserInfo() {
     // Mock data for development
     const mockUser = {
-      id: 1,
-      nickname: '善心居士',
+      nickname: '林深见鹿',
       avatarUrl: '',
-      totalReleases: 12,
-      totalMerit: 120
+      totalDays: 128,
+      totalReleases: 42,
+      certificateCount: 12
     };
 
     this.setData({ userInfo: mockUser });
-
-    // Actual API call (uncomment in production)
-    /*
-    const userId = app.globalData.userInfo.id;
-    wx.request({
-      url: `${app.globalData.apiBaseUrl}/users/${userId}`,
-      success: (res) => {
-        if (res.data.success) {
-          this.setData({ userInfo: res.data.data });
-        }
-      }
-    });
-    */
   },
 
+  /**
+   * 登录
+   */
   async login() {
-    wx.showLoading({ title: '登录中...' });
+    wx.showLoading({ title: '登录中...', mask: true });
 
     try {
-      // Step 1: WeChat login - get code
+      // Step 1: WeChat login
       const loginRes = await wx.login();
       const { code } = loginRes;
 
-      // Step 2: Get user profile (requires user authorization)
+      // Step 2: Get user profile
       const userInfoRes = await new Promise((resolve, reject) => {
         wx.getUserProfile({
           desc: '用于完善用户资料，记录放生功德',
@@ -85,48 +81,32 @@ Page({
         iv: userInfoRes.iv
       };
 
-      const res = await new Promise((resolve, reject) => {
-        wx.request({
-          url: `${app.globalData.apiBaseUrl}/users/login`,
-          method: 'POST',
-          data: loginData,
-          success: resolve,
-          fail: reject
-        });
+      // TODO: Call actual API
+      // For now, use mock data
+      const mockUserInfo = {
+        id: 1,
+        nickname: userInfoRes.userInfo.nickName,
+        avatarUrl: userInfoRes.userInfo.avatarUrl,
+        totalReleases: 0,
+        totalMerit: 0
+      };
+
+      app.saveUserInfo(mockUserInfo, 'token_' + mockUserInfo.id);
+      
+      this.setData({
+        userInfo: mockUserInfo,
+        isLoggedIn: true
       });
 
-      if (res.data.success) {
-        const userInfo = res.data.data;
-        
-        // Save to global and storage
-        app.saveUserInfo(userInfo, 'token_' + userInfo.id);
-        
-        this.setData({
-          userInfo,
-          isLoggedIn: true
-        });
+      wx.hideLoading();
+      
+      wx.showModal({
+        title: '欢迎',
+        content: '🙏 阿弥陀佛，欢迎加入科学放生！\n\n首次登录赠送 10 福报积分，祝您善缘广结，福慧双增。',
+        showCancel: false,
+        confirmColor: '#C9A961'
+      });
 
-        wx.hideLoading();
-        wx.showToast({ 
-          title: '阿弥陀佛，登录成功', 
-          icon: 'success',
-          duration: 2000
-        });
-
-        // Add merit for first login
-        if (userInfo.totalReleases === 0) {
-          setTimeout(() => {
-            wx.showModal({
-              title: '欢迎',
-              content: '🙏 阿弥陀佛，欢迎加入科学放生！\n\n首次登录赠送 10 福报积分，祝您善缘广结，福慧双增。',
-              showCancel: false,
-              confirmColor: '#C9A961'
-            });
-          }, 500);
-        }
-      } else {
-        throw new Error(res.data.error || '登录失败');
-      }
     } catch (error) {
       console.error('Login error:', error);
       wx.hideLoading();
@@ -134,8 +114,6 @@ Page({
       let errorMsg = '登录失败，请重试';
       if (error.errMsg && error.errMsg.includes('auth deny')) {
         errorMsg = '您取消了授权';
-      } else if (error.message) {
-        errorMsg = error.message;
       }
       
       wx.showToast({ 
@@ -146,13 +124,16 @@ Page({
     }
   },
 
+  /**
+   * 导航跳转
+   */
   goToCertificates() {
     if (!this.data.isLoggedIn) {
       wx.showToast({ title: '请先登录', icon: 'none' });
       return;
     }
     wx.navigateTo({
-      url: '/pages/certificates/certificates'
+      url: '/pages/certificate/certificate'
     });
   },
 
@@ -164,14 +145,10 @@ Page({
     wx.showToast({ title: '功能开发中', icon: 'none' });
   },
 
-  goToSettings() {
-    wx.showToast({ title: '功能开发中', icon: 'none' });
-  },
-
   showAbout() {
     wx.showModal({
       title: '关于科学放生',
-      content: '科学放生小程序致力于推广科学、合规的放生理念，保护生态环境，传承慈悲文化。\n\n版本：v1.0.0\n开发日期：2026 年 3 月',
+      content: '科学放生小程序致力于推广科学、合规的放生理念，保护生态环境，传承慈悲文化。\n\n版本：v2.4.0\n开发日期：2026 年 3 月',
       showCancel: false
     });
   },
@@ -184,9 +161,27 @@ Page({
       success: (res) => {
         if (res.confirm && res.content) {
           wx.showToast({ title: '感谢反馈', icon: 'success' });
-          // In production, send feedback to backend
+          // TODO: Send feedback to backend
         }
       }
+    });
+  },
+
+  goToIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    });
+  },
+
+  goToSpecies() {
+    wx.switchTab({
+      url: '/pages/species/species'
+    });
+  },
+
+  goToCertificate() {
+    wx.navigateTo({
+      url: '/pages/certificate/certificate'
     });
   }
 });

@@ -1,177 +1,111 @@
-<!--pages/certificate/certificate.wxml - Modern Zen Design: 动态电子证书 + 樱花动画-->
+<!--pages/certificate/certificate.wxml - Stitch Design: 烫金证书-->
 <view class="container">
-  <!-- 樱花飘落背景动画 -->
-  <view class="sakura-container">
-    <view class="sakura-petal" style="left: 10%; animation-delay: 0s;"></view>
-    <view class="sakura-petal" style="left: 30%; animation-delay: 2s;"></view>
-    <view class="sakura-petal" style="left: 50%; animation-delay: 4s;"></view>
-    <view class="sakura-petal" style="left: 70%; animation-delay: 1s;"></view>
-    <view class="sakura-petal" style="left: 90%; animation-delay: 3s;"></view>
-    <view class="sakura-petal" style="left: 20%; animation-delay: 5s;"></view>
-    <view class="sakura-petal" style="left: 80%; animation-delay: 2.5s;"></view>
+  <!-- Top Navigation -->
+  <view class="top-nav">
+    <view class="nav-brand">
+      <text class="brand-icon">🌿</text>
+      <text class="brand-title">生灵守护</text>
+    </view>
+    <view class="nav-actions">
+      <text class="action-icon" bindtap="closeCertificate">✕</text>
+    </view>
   </view>
 
-  <!-- 成功仪式感动画层 -->
-  <view class="success-animation" wx:if="{{showSuccessAnimation}}">
-    <view class="success-overlay"></view>
-    <view class="success-content animate-scale-in">
-      <view class="success-icon">✨</view>
-      <text class="success-text">功德圆满</text>
-      <view class="fish-animation">
-        <text class="fish">🐟</text>
+  <!-- Main Canvas -->
+  <view class="certificate-canvas">
+    <!-- Decoration: Lotus Petals -->
+    <view class="decoration-lotus">🪷</view>
+    <view class="decoration-water">💧</view>
+
+    <!-- Certificate Card -->
+    <view class="certificate-card">
+      <!-- Gold Border -->
+      <view class="gold-border-wrapper">
+        <view class="certificate-body">
+          <!-- Watermark -->
+          <view class="watermark">🌊</view>
+
+          <!-- Header -->
+          <view class="certificate-header">
+            <text class="certificate-title gold-foil-text">放生祈福证书</text>
+            <view class="title-divider"></view>
+          </view>
+
+          <!-- Content Body -->
+          <view class="certificate-content">
+            <view class="content-row">
+              <text class="user-name gold-foil-text">{{userName}}</text>
+              <text>大德：</text>
+            </view>
+
+            <view class="content-row indent">
+              <text>欣逢吉祥之日，阁下于</text>
+              <text class="highlight">{{releaseDate}}</text>
+              <text>在</text>
+              <text class="highlight">{{releaseLocation}}</text>
+              <text>科学放生</text>
+              <text class="highlight">{{speciesName}}</text>
+              <text>壹只。</text>
+            </view>
+
+            <view class="content-row center italic">
+              <text>"愿诸众生，永离众苦，常受安乐。"</text>
+            </view>
+          </view>
+
+          <!-- Bottom Metadata -->
+          <view class="certificate-footer">
+            <view class="footer-item">
+              <text class="footer-label">功德编号</text>
+              <text class="footer-value gold-foil-text">{{certificateNo}}</text>
+            </view>
+            <view class="footer-item">
+              <text class="footer-label">福报值</text>
+              <text class="footer-value gold-foil-text">+{{meritPoints}} BP</text>
+            </view>
+          </view>
+
+          <!-- Red Stamp -->
+          <view class="red-stamp">
+            <text class="stamp-text">科学放生<br/>功德委员会<br/>印</text>
+          </view>
+        </view>
       </view>
     </view>
-  </view>
 
-  <!-- 页面标题 -->
-  <view class="page-header animate-fade-in">
-    <text class="page-title">祈福证书</text>
-    <text class="page-subtitle">记录善行 · 积累福报</text>
-  </view>
-
-  <!-- 功德编号徽章 -->
-  <view class="merit-badge animate-fade-in animate-delay-1" wx:if="{{meritNumber}}">
-    <text class="merit-label">我的功德编号</text>
-    <text class="merit-number text-gold-emboss">{{meritNumber}}</text>
-  </view>
-
-  <!-- 新建祈福表单 -->
-  <view class="card form-section animate-fade-in animate-delay-2">
-    <view class="section-title">新建祈福</view>
-    
-    <!-- 物种选择 -->
-    <view class="form-group">
-      <text class="form-label">放生物种</text>
-      <picker 
-        mode="selector" 
-        range="{{speciesOptions}}" 
-        range-key="name"
-        value="{{speciesIndex}}"
-        bindchange="onSpeciesChange"
-      >
-        <view class="form-input">
-          {{speciesIndex >= 0 ? speciesOptions[speciesIndex].name : '请选择物种'}}
-        </view>
-      </picker>
-    </view>
-
-    <!-- 祈福心愿 -->
-    <view class="form-group">
-      <text class="form-label">祈福心愿</text>
-      <textarea 
-        class="form-textarea" 
-        placeholder="输入祈福内容，如：为父母健康祈福"
-        value="{{blessingText}}"
-        bindinput="onBlessingInput"
-        maxlength="200"
-      />
-      <text class="char-count">{{blessingText.length}}/200</text>
-    </view>
-
-    <!-- 放生日期 -->
-    <view class="form-group">
-      <text class="form-label">放生日期</text>
-      <picker 
-        mode="date" 
-        value="{{releaseDate}}"
-        bindchange="onDateChange"
-      >
-        <view class="form-input">
-          {{releaseDate || '选择日期'}}
-        </view>
-      </picker>
-    </view>
-
-    <!-- 放生地点 -->
-    <view class="form-group">
-      <text class="form-label">放生地点</text>
-      <input 
-        class="form-input" 
-        placeholder="输入放生地点"
-        value="{{releaseLocation}}"
-        bindinput="onLocationInput"
-      />
-    </view>
-
-    <!-- 善愿提示 -->
-    <view class="tips">
-      <text class="tips-text">🙏 以慈悲心放生，功德无量。愿以此功德，回向法界众生。</text>
-    </view>
-
-    <!-- 提交按钮 -->
-    <button class="submit-btn" bindtap="generateCertificate">
-      生成祈福证书
-    </button>
-  </view>
-
-  <!-- 证书预览 - 生成后显示 -->
-  <view class="certificate-preview animate-fade-in" wx:if="{{showPreview}}">
-    <!-- 飘落花瓣动画 -->
-    <view class="petal"></view>
-    <view class="petal"></view>
-    <view class="petal"></view>
-    <view class="petal"></view>
-    <view class="petal"></view>
-    
-    <view class="cert-header">
-      <text class="cert-title">放生祈福证书</text>
-      <text class="cert-subtitle">功德无量 · 福泽绵长</text>
-    </view>
-    
-    <view class="cert-body">
-      <text class="cert-text">今有善信</text>
-      <text class="cert-name">{{userName || '某某居士'}}</text>
-      <text class="cert-text">于{{releaseDate || '吉日'}}放生{{selectedSpecies.name || '物命'}}</text>
-      <text class="cert-text">{{blessingText || '祈愿众生离苦得乐，福慧增长'}}</text>
-    </view>
-    
-    <view class="cert-footer">
-      <text class="cert-date">公元{{currentDate}}</text>
-      <view class="cert-seal">福</view>
-    </view>
-    
-    <!-- 分享按钮组 -->
-    <view class="share-buttons">
-      <button class="share-btn share-btn-primary" bindtap="shareToFriends">
-        <text>📤</text>
-        <text>分享朋友圈</text>
+    <!-- Action Buttons -->
+    <view class="action-buttons">
+      <button class="action-btn secondary" bindtap="saveToAlbum">
+        <text class="btn-icon">⬇</text>
+        <text>保存到相册</text>
       </button>
-      <button class="share-btn share-btn-secondary" bindtap="saveCertificate">
-        <text>💾</text>
-        <text>保存证书</text>
+      <button class="action-btn primary" bindtap="shareToFriends">
+        <text class="btn-icon">↗</text>
+        <text>转发给好友</text>
       </button>
     </view>
+
+    <!-- Footer Quote -->
+    <text class="footer-quote">每一个细微的善举，都在改变世界的呼吸</text>
   </view>
 
-  <!-- 我的祈福列表 -->
-  <view class="certificate-section animate-fade-in animate-delay-3" wx:if="{{certificateList.length > 0}}">
-    <view class="section-title">我的祈福</view>
-    
-    <view 
-      class="card certificate-card" 
-      wx:for="{{certificateList}}" 
-      wx:key="id"
-      bindtap="viewCertificate"
-      data-id="{{item.id}}"
-    >
-      <view class="cert-header">
-        <text class="cert-no">编号：{{item.certificateNo}}</text>
-        <text class="cert-date">{{item.releaseDate}}</text>
-      </view>
-      <view class="cert-body">
-        <text class="cert-species">物种：{{item.species.name}}</text>
-        <text class="cert-blessing">心愿：{{item.blessingText}}</text>
-      </view>
-      <view class="cert-footer">
-        <text class="cert-merit text-gold-emboss">+{{item.meritPoints}} 福报</text>
-      </view>
+  <!-- Bottom Navigation -->
+  <view class="bottom-nav">
+    <view class="nav-item" bindtap="goToIndex">
+      <text class="nav-icon">🏠</text>
+      <text class="nav-label">首页</text>
     </view>
-  </view>
-
-  <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{certificateList.length === 0 && !showPreview}}">
-    <text class="empty-icon">📿</text>
-    <text class="empty-text">暂无祈福记录</text>
-    <text class="empty-subtext">生成第一张祈福证书，记录善行</text>
+    <view class="nav-item" bindtap="goToSpecies">
+      <text class="nav-icon">🐟</text>
+      <text class="nav-label">物种</text>
+    </view>
+    <view class="nav-item active">
+      <text class="nav-icon">🏆</text>
+      <text class="nav-label">证书</text>
+    </view>
+    <view class="nav-item" bindtap="goToProfile">
+      <text class="nav-icon">👤</text>
+      <text class="nav-label">我的</text>
+    </view>
   </view>
 </view>

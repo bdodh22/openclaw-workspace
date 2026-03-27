@@ -1,198 +1,136 @@
-// pages/certificate/certificate.js - 集成触觉反馈和成功动画
-import { createCertificate, getSpeciesList } from '../../utils/api.js';
-import { showLoading, hideLoading, showSuccess, showError, generateCertificateNo, hapticFeedback } from '../../utils/util.js';
+// pages/certificate/certificate.js - Stitch Design: 烫金证书
+import { generateCertificateNo } from '../../utils/util.js';
 
 const app = getApp();
 
 Page({
   data: {
-    showSuccessAnimation: false,
-    showPreview: false,
-    meritNumber: '',
-    speciesOptions: [],
-    speciesIndex: -1,
-    selectedSpecies: null,
-    blessingText: '',
+    userName: '善信',
+    releaseDate: '',
     releaseLocation: '',
-    releaseDate: new Date().toISOString().split('T')[0],
-    userName: '',
-    currentDate: '',
-    certificateList: [],
-    userInfo: null
+    speciesName: '',
+    certificateNo: '',
+    meritPoints: 0,
+    showPreview: false
   },
 
   onLoad(options) {
-    // 加载物种列表
-    this.loadSpeciesList();
-    
-    // 获取用户信息
-    this.loadUserInfo();
-    
-    // 加载证书列表
-    this.loadCertificateList();
-    
-    // 设置当前日期
-    const now = new Date();
-    this.setData({
-      currentDate: `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
-    });
-    
-    // 生成功德编号
-    this.setData({
-      meritNumber: generateCertificateNo()
-    });
+    // 从参数获取证书数据，或使用 mock 数据
+    if (options.id) {
+      this.loadCertificate(options.id);
+    } else {
+      this.setMockData();
+    }
   },
 
-  async loadSpeciesList() {
-    showLoading('加载中...');
+  /**
+   * 加载证书数据
+   */
+  loadCertificate(id) {
+    // TODO: 从 API 加载证书
+    const certificates = wx.getStorageSync('user_certificates') || [];
+    const cert = certificates.find(c => c.id === parseInt(id));
     
-    try {
-      const res = await getSpeciesList(1, 50);
-      const speciesList = res.data || res.list || [];
+    if (cert) {
       this.setData({
-        speciesOptions: speciesList,
-        speciesIndex: 0
+        userName: cert.userName || '善信',
+        releaseDate: cert.releaseDate,
+        releaseLocation: cert.releaseLocation,
+        speciesName: cert.species?.name || '物命',
+        certificateNo: cert.certificateNo,
+        meritPoints: cert.meritPoints || 100
       });
-      if (speciesList.length > 0) {
-        this.setData({ selectedSpecies: speciesList[0] });
-      }
-      hideLoading();
-    } catch (error) {
-      hideLoading();
-      // 加载失败时使用默认数据
-      this.setData({
-        speciesOptions: [
-          { id: 1, name: '鲫鱼' },
-          { id: 2, name: '鲤鱼' },
-          { id: 3, name: '泥鳅' }
-        ]
-      });
+    } else {
+      this.setMockData();
     }
   },
 
-  loadUserInfo() {
-    // 从 app.globalData 获取用户信息
-    const userInfo = app.globalData?.userInfo || {
-      nickname: '善信',
-      avatarUrl: ''
-    };
-    this.setData({
-      userInfo,
-      userName: userInfo.nickname || '善信'
-    });
-  },
-
-  loadCertificateList() {
-    const key = 'user_certificates';
-    const certificates = wx.getStorageSync(key) || [];
-    this.setData({ certificateList: certificates });
-  },
-
-  onSpeciesChange(e) {
-    const index = parseInt(e.detail.value);
-    const species = this.data.speciesOptions[index];
-    this.setData({
-      speciesIndex: index,
-      selectedSpecies: species
-    });
-  },
-
-  onBlessingInput(e) {
-    this.setData({
-      blessingText: e.detail.value
-    });
-  },
-
-  onLocationInput(e) {
-    this.setData({
-      releaseLocation: e.detail.value
-    });
-  },
-
-  onDateChange(e) {
-    this.setData({
-      releaseDate: e.detail.value
-    });
-  },
-
-  async generateCertificate() {
-    const { selectedSpecies, blessingText, releaseLocation, releaseDate } = this.data;
+  /**
+   * 设置 Mock 数据
+   */
+  setMockData() {
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日`;
     
-    if (!selectedSpecies) {
-      showError('请选择物种');
-      return;
-    }
+    this.setData({
+      userName: app.globalData.userInfo?.nickname || '李慕华',
+      releaseDate: dateStr,
+      releaseLocation: '西溪国家湿地公园',
+      speciesName: '中华草龟',
+      certificateNo: generateCertificateNo(),
+      meritPoints: 880
+    });
+  },
+
+  /**
+   * 关闭证书
+   */
+  closeCertificate() {
+    wx.navigateBack();
+  },
+
+  /**
+   * 保存到相册
+   */
+  saveToAlbum() {
+    wx.showLoading({ title: '生成中...', mask: true });
     
-    if (!releaseLocation) {
-      showError('请填写放生地点');
-      return;
-    }
-
-    showLoading('生成中...');
-
-    try {
-      const certificateNo = generateCertificateNo();
-      
-      // 模拟生成成功
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      hideLoading();
-      
-      // 触觉反馈
-      hapticFeedback('medium');
-      
-      showSuccess('祈福证书生成成功！');
-      
-      // 保存到证书列表
-      this.saveCertificateToLocal({
-        id: Date.now(),
-        certificateNo,
-        species: selectedSpecies,
-        blessingText,
-        releaseLocation,
-        releaseDate,
-        meritPoints: 100,
-        createTime: new Date().toISOString()
+    // TODO: 使用 Canvas 绘制证书并保存
+    setTimeout(() => {
+      wx.hideLoading();
+      wx.showToast({
+        title: '保存功能开发中...',
+        icon: 'none',
+        duration: 2000
       });
-
-      // 显示预览
-      this.setData({ showPreview: true });
-      
-      // 滚动到预览区域
-      wx.pageScrollTo({
-        scrollTop: 1000,
-        duration: 300
-      });
-    } catch (error) {
-      hideLoading();
-      showError('生成失败，请重试');
-    }
+    }, 800);
   },
 
-  saveCertificateToLocal(certificate) {
-    const key = 'user_certificates';
-    const certificates = wx.getStorageSync(key) || [];
-    certificates.unshift(certificate);
-    wx.setStorageSync(key, certificates);
-    this.setData({ certificateList: certificates });
-  },
-
+  /**
+   * 分享给好友
+   */
   shareToFriends() {
     wx.showShareMenu({
       withShareTicket: true,
       menus: ['shareAppMessage', 'shareTimeline']
     });
-    showSuccess('点击右上角分享');
+    
+    wx.showToast({
+      title: '点击右上角分享',
+      icon: 'none',
+      duration: 2000
+    });
   },
 
-  saveCertificateToImage() {
-    // TODO: 实现证书保存为图片
-    showSuccess('保存功能开发中...');
+  /**
+   * 导航跳转
+   */
+  goToIndex() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    });
   },
 
-  viewCertificate(e) {
-    const id = e.currentTarget.dataset.id;
-    // TODO: 查看详情
-    showSuccess('查看证书详情');
+  goToSpecies() {
+    wx.switchTab({
+      url: '/pages/species/species'
+    });
+  },
+
+  goToProfile() {
+    wx.switchTab({
+      url: '/pages/profile/profile'
+    });
+  },
+
+  /**
+   * 分享配置
+   */
+  onShareAppMessage() {
+    return {
+      title: `我在科学放生获得功德证书，福报 +${this.data.meritPoints}`,
+      path: `/pages/certificate/certificate?id=${this.data.certificateNo}`,
+      imageUrl: '/images/share/certificate.jpg'
+    };
   }
 });

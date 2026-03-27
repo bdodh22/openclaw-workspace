@@ -1,83 +1,165 @@
-<!--pages/calendar/calendar.wxml-->
+<!--pages/calendar/calendar.wxml - Stitch Design: 佛历日历-->
 <view class="container">
-  <!-- Header -->
-  <view class="header card">
-    <text class="header-title">斋日查询</text>
-    <text class="header-subtitle">初一十五 十斋六斋</text>
-  </view>
-
-  <!-- Today Status -->
-  <view class="today-status card">
-    <view class="status-icon">{{isVegetarianDay ? '📿' : '☀️'}}</view>
-    <view class="status-info">
-      <text class="status-date">{{today}}</text>
-      <text class="status-desc">{{isVegetarianDay ? '今日是斋日' : '今日是普通日'}}</text>
-      <text class="status-detail">{{vegetarianDayDesc}}</text>
+  <!-- Top Navigation -->
+  <view class="top-nav">
+    <view class="nav-brand">
+      <text class="brand-icon">🌿</text>
+      <text class="brand-title">生灵守护</text>
+    </view>
+    <view class="nav-actions">
+      <text class="action-icon">🔍</text>
+      <text class="action-icon active">📅</text>
     </view>
   </view>
 
-  <!-- Month Selector -->
-  <view class="month-selector card">
-    <view class="month-nav" bindtap="prevMonth">
-      <text>◀</text>
+  <!-- Main Content -->
+  <view class="main-content">
+    <!-- Hero Section: Month Toggle -->
+    <view class="month-selector">
+      <view class="month-btn" bindtap="prevMonth">‹</view>
+      <view class="month-info">
+        <text class="month-title">{{currentYear}}年 · {{currentMonth}}月</text>
+        <text class="month-subtitle">{{englishMonth}} {{currentYear}}</text>
+      </view>
+      <view class="month-btn" bindtap="nextMonth">›</view>
     </view>
-    <text class="month-title">{{currentYear}}年{{currentMonth}}月</text>
-    <view class="month-nav" bindtap="nextMonth">
-      <text>▶</text>
-    </view>
-  </view>
 
-  <!-- Calendar Grid -->
-  <view class="calendar card">
-    <view class="calendar-header">
-      <text class="weekday">日</text>
-      <text class="weekday">一</text>
-      <text class="weekday">二</text>
-      <text class="weekday">三</text>
-      <text class="weekday">四</text>
-      <text class="weekday">五</text>
-      <text class="weekday">六</text>
+    <!-- Bento Grid: Today's Info -->
+    <view class="today-grid">
+      <!-- Main Date Card -->
+      <view class="date-card">
+        <view class="date-badge">TODAY</view>
+        <text class="date-day">{{currentDay}}</text>
+        <text class="date-lunar">{{lunarDate}}</text>
+        <view class="date-footer">
+          <text class="ganzhi">{{ganzhiYear}}年</text>
+          <text class="zodiac">属相：{{zodiac}}</text>
+        </view>
+      </view>
+
+      <!-- Ritual Stack -->
+      <view class="ritual-stack">
+        <view class="ritual-card vegetarian">
+          <text class="ritual-icon">🥬</text>
+          <text class="ritual-title">十斋日</text>
+          <text class="ritual-subtitle">VEGETARIAN DAY</text>
+        </view>
+        <view class="ritual-card suitable">
+          <view class="suitable-indicator">
+            <view class="indicator-dot"></view>
+            <text class="indicator-title">今日宜</text>
+          </view>
+          <text class="suitable-text">戒杀、放生、<br/>祈福、求嗣</text>
+        </view>
+      </view>
     </view>
-    <view class="calendar-days">
-      <view 
-        class="day-cell {{day.isToday ? 'today' : ''}} {{day.isVegetarian ? 'vegetarian' : ''}}"
-        wx:for="{{calendarDays}}"
-        wx:key="day"
-        bindtap="selectDay"
-        data-day="{{item}}"
-      >
-        <text class="day-number">{{item.day}}</text>
-        <text class="day-mark" wx:if="{{item.isVegetarian}}">斋</text>
+
+    <!-- Avoidance Banner -->
+    <view class="avoid-banner">
+      <view class="avoid-left">
+        <view class="avoid-icon">⛔</view>
+        <view class="avoid-info">
+          <text class="avoid-title">今日忌</text>
+          <text class="avoid-text">开市、入宅、安葬</text>
+        </view>
+      </view>
+      <text class="avoid-info-icon">ℹ</text>
+    </view>
+
+    <!-- Calendar List -->
+    <view class="calendar-section">
+      <text class="section-title">佛历日程</text>
+      <view class="calendar-list">
+        <!-- Today -->
+        <view class="calendar-item today">
+          <view class="item-date">
+            <text class="weekday">周五</text>
+            <text class="day">24</text>
+          </view>
+          <view class="item-content">
+            <view class="item-header">
+              <text class="lunar-day">四月十七</text>
+              <view class="special-badge">十斋日</view>
+            </view>
+            <text class="item-desc">护生功德翻倍。宜持咒，行善事。</text>
+          </view>
+          <text class="check-icon">✓</text>
+        </view>
+
+        <!-- Future Days -->
+        <view class="calendar-item" bindtap="selectDay" data-day="25">
+          <view class="item-date">
+            <text class="weekday">周六</text>
+            <text class="day">25</text>
+          </view>
+          <view class="item-content">
+            <text class="lunar-day">四月十八</text>
+            <text class="item-desc">宜放生麻雀、斑鸠。</text>
+          </view>
+          <text class="add-icon">+</text>
+        </view>
+
+        <view class="calendar-item" bindtap="selectDay" data-day="26">
+          <view class="item-date">
+            <text class="weekday">周日</text>
+            <text class="day">26</text>
+          </view>
+          <view class="item-content">
+            <view class="item-header">
+              <text class="lunar-day">四月十九</text>
+              <view class="six-badge">六斋日</view>
+            </view>
+            <text class="item-desc">阳光和煦，利于野外护生巡查。</text>
+          </view>
+          <text class="add-icon">+</text>
+        </view>
+
+        <view class="calendar-item" bindtap="selectDay" data-day="27">
+          <view class="item-date">
+            <text class="weekday">周一</text>
+            <text class="day">27</text>
+          </view>
+          <view class="item-content">
+            <text class="lunar-day">四月二十</text>
+            <text class="item-desc">宜整理放生笔记。</text>
+          </view>
+          <text class="add-icon">+</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Quote Card -->
+    <view class="quote-card">
+      <image class="quote-bg" src="/images/calendar/zen-mountain.png" mode="aspectFill" />
+      <view class="quote-overlay">
+        <text class="quote-text">"诸余罪中，杀业最重；诸功德中，放生第一。"</text>
+        <text class="quote-source">— 《大智度论》</text>
       </view>
     </view>
   </view>
 
-  <!-- Vegetarian Days Legend -->
-  <view class="legend card">
-    <view class="legend-title">斋日说明</view>
-    <view class="legend-list">
-      <view class="legend-item">
-        <text class="legend-dot ten-day"></text>
-        <text class="legend-text">十斋日：每月初一、初八、十四、十五、十八、廿三、廿四、廿八、廿九、三十</text>
-      </view>
-      <view class="legend-item">
-        <text class="legend-dot six-day"></text>
-        <text class="legend-text">六斋日：每月初八、十四、十五、廿三、廿九、三十</text>
-      </view>
-      <view class="legend-item">
-        <text class="legend-dot first-day"></text>
-        <text class="legend-text">朔日（初一）：新月之日，宜放生祈福</text>
-      </view>
-      <view class="legend-item">
-        <text class="legend-dot fifteenth-day"></text>
-        <text class="legend-text">望日（十五）：满月之日，宜放生祈福</text>
-      </view>
+  <!-- Bottom Navigation -->
+  <view class="bottom-nav">
+    <view class="nav-item" bindtap="goToIndex">
+      <text class="nav-icon">🏠</text>
+      <text class="nav-label">首页</text>
+    </view>
+    <view class="nav-item active">
+      <text class="nav-icon">📊</text>
+      <text class="nav-label">物种</text>
+    </view>
+    <view class="nav-item" bindtap="goToCertificate">
+      <text class="nav-icon">🏆</text>
+      <text class="nav-label">证书</text>
+    </view>
+    <view class="nav-item" bindtap="goToProfile">
+      <text class="nav-icon">👤</text>
+      <text class="nav-label">我的</text>
     </view>
   </view>
 
-  <!-- Tip -->
-  <view class="tip card">
-    <text class="tip-icon">💡</text>
-    <text class="tip-text">斋日放生，功德倍增。选择本地物种，科学如法放生。</text>
+  <!-- FAB -->
+  <view class="fab" bindtap="addRelease">
+    <text class="fab-icon">+</text>
   </view>
 </view>
