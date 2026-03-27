@@ -40,6 +40,15 @@ Page({
       
       let speciesData = res.data || [];
       
+      // 处理图片 URL - 拼接完整域名
+      const baseUrl = app.globalData.apiBaseUrl || 'https://sf.dexoconnect.com';
+      speciesData = speciesData.map(item => ({
+        ...item,
+        imageUrl: item.imageUrl ? 
+          (item.imageUrl.startsWith('http') ? item.imageUrl : baseUrl + item.imageUrl) 
+          : '/images/species/default.png'
+      }));
+      
       // 分类过滤
       if (currentCategory) {
         speciesData = speciesData.filter(item => item.category === this.getCategoryKey(currentCategory));
