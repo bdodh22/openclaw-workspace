@@ -130,7 +130,7 @@
 
     <!-- Quote Card -->
     <view class="quote-card">
-      <image class="quote-bg" src="/images/calendar/zen-mountain.png" mode="aspectFill" />
+      <view class="quote-bg-placeholder"></view>
       <view class="quote-overlay">
         <text class="quote-text">"诸余罪中，杀业最重；诸功德中，放生第一。"</text>
         <text class="quote-source">— 《大智度论》</text>

@@ -34,7 +34,7 @@
     <view class="bento-grid">
       <!-- Species Query (Large) -->
       <view class="bento-card bento-large species-card" bindtap="goToSpecies">
-        <image class="card-bg-image" src="/images/home/egret.png" mode="aspectFill" />
+        <view class="card-bg-placeholder"></view>
         <view class="card-overlay"></view>
         <view class="card-content">
           <text class="card-title">物种查询</text>
@@ -82,9 +82,9 @@
             </view>
           </view>
           <view class="ranking-avatars">
-            <image class="avatar" src="/images/avatars/user1.png" />
-            <image class="avatar" src="/images/avatars/user2.png" />
-            <image class="avatar" src="/images/avatars/user3.png" />
+            <view class="avatar avatar-1">👤</view>
+            <view class="avatar avatar-2">👤</view>
+            <view class="avatar avatar-3">👤</view>
             <view class="avatar-more">+99</view>
           </view>
         </view>
